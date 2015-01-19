@@ -2,7 +2,7 @@
 //  Friend.h
 //  VKLovers
 //
-//  Created by Vitaly Davydov on 18/01/15.
+//  Created by Vitaly Davydov on 19/01/15.
 //  Copyright (c) 2015 Vitaly Davydov. All rights reserved.
 //
 
@@ -13,7 +13,7 @@
 @interface Friend : NSManagedObject
 
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSNumber * avatar;
+@property (nonatomic, retain) NSData * avatar;
 @property (nonatomic, retain) NSNumber * choice;
 
 @end

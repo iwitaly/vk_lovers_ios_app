@@ -7,28 +7,50 @@
 //
 
 #import "IWVkFriendsTableViewController.h"
-#import "IWVk.h"
+#import "IWVkManager.h"
 #import "IWVkPersonTableViewCell.h"
+#import "AppDelegate.h"
+#import "Friend.h"
+#import <malloc/malloc.h>
 
 #define k_NotificationName_UsersLoaded @"k_NotificationName_UsersLoaded"
 #define k_NotificationName_UserInfo @"k_NotificationName_UserInfo"
+#define k_Entity_Name_Friend @"Friend"
 
 @interface IWVkFriendsTableViewController ()
 
 @property (nonatomic, strong) NSMutableArray *friends;
 
+@property (nonatomic, strong) NSManagedObjectContext *context;
+
 @end
 
 @implementation IWVkFriendsTableViewController
 
+- (NSManagedObjectContext *)context {
+    if (!_context) {
+        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        _context = [delegate managedObjectContext];
+    }
+    return _context;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //check if db is empty, if YES -> load from VK
+    //else load from local base
+//    [self coreDataClearBase];
+    
+//    if ([self coreDataIsEmptyForFriends]) {
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(handlerFriends:)
      name:k_NotificationName_UsersLoaded object:nil];
     
     [self loadFriendList];
+//    } else {
+//        NSLog(@"%@", ((Friend *)[self coreDataAllFriends][0]).avatar);
+//    }
 }
 
 - (void)handlerFriends:(NSNotification *)jsonData {
@@ -46,22 +68,48 @@
 - (void)handleUser:(NSNotification *)userInfo {
     NSNumber *sex = userInfo.object;
     NSMutableArray *newArray = [[NSMutableArray alloc] init];
+    NSNumber *sexToShow = (sex.integerValue == 2) ? @1 : @2;
+    sexToShow = !sex ? @0 : sexToShow;
     
-    if ([sex isEqualToNumber:@2]) {
+    if (sexToShow.integerValue) {
         for (id friend in self.friends) {
-            if (![friend[@"sex"] isEqualToNumber:@2]) {
+            if ([friend[@"sex"] isEqualToNumber:sexToShow]) {
                 [newArray addObject:friend];
             }
         }
+    } else {
+        [[[UIAlertView alloc] initWithTitle:@"No sex!" message:@"No sex mentioned in your profile" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }
+    
+    [self coreDataAddFriends:newArray];
     
     self.friends = newArray;
     [self.tableView reloadData];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)coreDataAddFriends:(NSMutableArray *)friends {
+    //toBase.choice =
+    
+    for (id friend in friends) {
+        Friend *toBase = [NSEntityDescription insertNewObjectForEntityForName:k_Entity_Name_Friend inManagedObjectContext:self.context];
+        toBase.name = [friend[@"first_name"] stringByAppendingFormat:@" %@", friend[@"last_name"]];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:friend[@"photo_50"]]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+//                NSLog(@"%d"(malloc_size((__bridge const void *)(toBase.name)) + malloc_size((__bridge const void *)(photo))));
+                toBase.avatar = photo;
+                NSError *error = nil;
+                [self.context save:&error];
+
+            });
+        });
+    }
+}
+
 - (void)loadFriendList {
-    [[IWVk allFriends] executeWithResultBlock:^(VKResponse *response) {
+    [[IWVkManager allFriends] executeWithResultBlock:^(VKResponse *response) {
         [[NSNotificationCenter defaultCenter]
          postNotificationName:k_NotificationName_UsersLoaded object:response.json[@"items"]];
     } errorBlock:^(NSError *error) {
@@ -70,7 +118,7 @@
 }
 
 - (void)filterFriends {
-    [[IWVk info] executeWithResultBlock:^(VKResponse *response) {
+    [[IWVkManager info] executeWithResultBlock:^(VKResponse *response) {
         [[NSNotificationCenter defaultCenter]
          postNotificationName:k_NotificationName_UserInfo object:response.json[0][@"sex"]];
     } errorBlock:^(NSError *error) {
@@ -95,14 +143,63 @@
     NSUInteger number = indexPath.row;
     
     cell.name.text = [self.friends[number][@"first_name"] stringByAppendingFormat:@" %@",self.friends[number][@"last_name"]];
-    dispatch_async(dispatch_queue_create("ImageQueue", NULL), ^{
-        cell.avatar.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.friends[number][@"photo_50"]]]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.friends[number][@"photo_50"]]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+           cell.avatar.image = [UIImage imageWithData:photo];
+        });
     });
     
     return cell;
 }
 
 
+/*
+#pragma mark CoreData
+- (BOOL)coreDataIsEmptyForFriends {
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:k_Entity_Name_Friend];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:k_Entity_Name_Friend inManagedObjectContext:self.context];
+    request.fetchLimit = 1;
+    NSError *error = nil;
+    NSArray *results = [self.context executeFetchRequest:request error:&error];
+    if (!request) {
+        NSLog(@"Fetch error: %@", error);
+    }
+    return results.count == 0;
+}
+
+- (NSArray *)coreDataAllFriends {
+    NSFetchRequest *request = [[NSFetchRequest alloc]initWithEntityName:k_Entity_Name_Friend];
+    NSError *error = nil;
+    
+    NSArray *results = [self.context executeFetchRequest:request error:&error];
+    
+    if (error != nil) {
+        NSLog(@"Error with fetching all friends %@", error);
+    }
+    
+    return results;
+}
+
+- (void)coreDataClearBase {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:k_Entity_Name_Friend inManagedObjectContext:self.context];
+    [fetchRequest setEntity:entity];
+    
+    NSError *error;
+    NSArray *items = [self.context executeFetchRequest:fetchRequest error:&error];
+    
+    for (NSManagedObject *managedObject in items) {
+        [self.context deleteObject:managedObject];
+//        NSLog(@"%@ object deleted", entityDescription);
+    }
+    if (![self.context save:&error]) {
+        NSLog(@"Error with deleting base %@", error);
+    }
+}
+
+*/
 /*
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {

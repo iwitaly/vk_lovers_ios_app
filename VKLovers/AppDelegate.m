@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "IWLoginViewController.h"
+#import "IWVkManager.h"
 
 #define kLoginViewController @"kLoginViewController"
 #define kMainViewController @"kMainViewController"
@@ -19,9 +19,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    BOOL validVKSession = [VKSdk wakeUpSession];
+    IWVkManager *vkManager = [IWVkManager sharedManager];
+    BOOL validVKSession = [vkManager validVKSession];
     NSString *controllerToOpen = validVKSession ? kMainViewController : kLoginViewController;
-//    self.window.rootViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:controllerToOpen];
+    self.window.rootViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:controllerToOpen];
+    
     return YES;
 }
 

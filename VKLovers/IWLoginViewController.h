@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface IWLoginViewController : UIViewController <VKSdkDelegate>
+@interface IWLoginViewController : UIViewController
 
 @end
 

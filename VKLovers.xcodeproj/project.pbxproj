@@ -10,7 +10,8 @@
 		04B48BFC632D36881D0B2D70 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC71FB911722F546E2A41B78 /* libPods.a */; };
 		73CD36181A6C3E8D0026232F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73CD36171A6C3E8D0026232F /* CoreData.framework */; };
 		73CD361B1A6C3EC90026232F /* VKLovers.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 73CD36191A6C3EC90026232F /* VKLovers.xcdatamodeld */; };
-		73CD36531A6C45980026232F /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CD36521A6C45980026232F /* Friend.m */; };
+		73CD36561A6D53AE0026232F /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CD36551A6D53AE0026232F /* Friend.m */; };
+		73CD36721A6D98930026232F /* IWVkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CD36711A6D98930026232F /* IWVkManager.m */; };
 		73D4891F1A6BDD1400176CD4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D4891E1A6BDD1400176CD4 /* main.m */; };
 		73D489221A6BDD1400176CD4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D489211A6BDD1400176CD4 /* AppDelegate.m */; };
 		73D489251A6BDD1400176CD4 /* IWLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D489241A6BDD1400176CD4 /* IWLoginViewController.m */; };
@@ -18,8 +19,6 @@
 		73D4892A1A6BDD1400176CD4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 73D489291A6BDD1400176CD4 /* Images.xcassets */; };
 		73D4892D1A6BDD1400176CD4 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73D4892B1A6BDD1400176CD4 /* LaunchScreen.xib */; };
 		73D489391A6BDD1400176CD4 /* VKLoversTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D489381A6BDD1400176CD4 /* VKLoversTests.m */; };
-		73D489451A6BDD9D00176CD4 /* IWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D489431A6BDD9D00176CD4 /* IWMainViewController.m */; };
-		73D489491A6BE4F800176CD4 /* IWVk.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D489481A6BE4F800176CD4 /* IWVk.m */; };
 		73D4894C1A6BEAE200176CD4 /* IWUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D4894B1A6BEAE200176CD4 /* IWUser.m */; };
 		73D4894F1A6BEAEF00176CD4 /* IWConfession.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D4894E1A6BEAEF00176CD4 /* IWConfession.m */; };
 		73D489531A6BEB3200176CD4 /* IWVKResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D489521A6BEB3200176CD4 /* IWVKResponse.m */; };
@@ -42,8 +41,10 @@
 		6404C41CDBC6F04495B68382 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		73CD36171A6C3E8D0026232F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		73CD361A1A6C3EC90026232F /* VKLovers.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VKLovers.xcdatamodel; sourceTree = "<group>"; };
-		73CD36511A6C45980026232F /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
-		73CD36521A6C45980026232F /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
+		73CD36541A6D53AE0026232F /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
+		73CD36551A6D53AE0026232F /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
+		73CD36701A6D98930026232F /* IWVkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWVkManager.h; sourceTree = "<group>"; };
+		73CD36711A6D98930026232F /* IWVkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWVkManager.m; sourceTree = "<group>"; };
 		73D489191A6BDD1400176CD4 /* VKLovers.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VKLovers.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73D4891D1A6BDD1400176CD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		73D4891E1A6BDD1400176CD4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -57,11 +58,7 @@
 		73D489321A6BDD1400176CD4 /* VKLoversTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VKLoversTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		73D489371A6BDD1400176CD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		73D489381A6BDD1400176CD4 /* VKLoversTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VKLoversTests.m; sourceTree = "<group>"; };
-		73D489421A6BDD9D00176CD4 /* IWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWMainViewController.h; sourceTree = "<group>"; };
-		73D489431A6BDD9D00176CD4 /* IWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWMainViewController.m; sourceTree = "<group>"; };
 		73D489461A6BDE1800176CD4 /* VKLovers-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VKLovers-Prefix.pch"; sourceTree = "<group>"; };
-		73D489471A6BE4F800176CD4 /* IWVk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWVk.h; sourceTree = "<group>"; };
-		73D489481A6BE4F800176CD4 /* IWVk.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWVk.m; sourceTree = "<group>"; };
 		73D4894A1A6BEAE200176CD4 /* IWUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWUser.h; sourceTree = "<group>"; };
 		73D4894B1A6BEAE200176CD4 /* IWUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWUser.m; sourceTree = "<group>"; };
 		73D4894D1A6BEAEF00176CD4 /* IWConfession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWConfession.h; sourceTree = "<group>"; };
@@ -120,8 +117,6 @@
 			children = (
 				73D489201A6BDD1400176CD4 /* AppDelegate.h */,
 				73D489211A6BDD1400176CD4 /* AppDelegate.m */,
-				73D489421A6BDD9D00176CD4 /* IWMainViewController.h */,
-				73D489431A6BDD9D00176CD4 /* IWMainViewController.m */,
 				73D489231A6BDD1400176CD4 /* IWLoginViewController.h */,
 				73D489241A6BDD1400176CD4 /* IWLoginViewController.m */,
 				73D489541A6BF3B000176CD4 /* IWVkFriendsTableViewController.h */,
@@ -168,10 +163,10 @@
 		73D489501A6BEAF900176CD4 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				73CD36511A6C45980026232F /* Friend.h */,
-				73CD36521A6C45980026232F /* Friend.m */,
-				73D489471A6BE4F800176CD4 /* IWVk.h */,
-				73D489481A6BE4F800176CD4 /* IWVk.m */,
+				73CD36541A6D53AE0026232F /* Friend.h */,
+				73CD36551A6D53AE0026232F /* Friend.m */,
+				73CD36701A6D98930026232F /* IWVkManager.h */,
+				73CD36711A6D98930026232F /* IWVkManager.m */,
 				73D489511A6BEB3200176CD4 /* IWVKResponse.h */,
 				73D489521A6BEB3200176CD4 /* IWVKResponse.m */,
 				73D4894A1A6BEAE200176CD4 /* IWUser.h */,
@@ -335,14 +330,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				73D489491A6BE4F800176CD4 /* IWVk.m in Sources */,
+				73CD36721A6D98930026232F /* IWVkManager.m in Sources */,
+				73CD36561A6D53AE0026232F /* Friend.m in Sources */,
 				73D489591A6BF4A600176CD4 /* IWVkPersonTableViewCell.m in Sources */,
 				73D489531A6BEB3200176CD4 /* IWVKResponse.m in Sources */,
-				73CD36531A6C45980026232F /* Friend.m in Sources */,
 				73D4894F1A6BEAEF00176CD4 /* IWConfession.m in Sources */,
 				73D489561A6BF3B000176CD4 /* IWVkFriendsTableViewController.m in Sources */,
 				73D489251A6BDD1400176CD4 /* IWLoginViewController.m in Sources */,
-				73D489451A6BDD9D00176CD4 /* IWMainViewController.m in Sources */,
 				73D489221A6BDD1400176CD4 /* AppDelegate.m in Sources */,
 				73CD361B1A6C3EC90026232F /* VKLovers.xcdatamodeld in Sources */,
 				73D4894C1A6BEAE200176CD4 /* IWUser.m in Sources */,
