@@ -139,7 +139,7 @@
     
     //////
     if (![cell.choice allTargets].count) {
-        [cell.choice addTarget:self action:@selector(chooseFriend:) forControlEvents:UIControlEventAllEvents];
+        [cell.choice addTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
         cell.choice.previousSelectedIndex = -1;
     }
     /////
@@ -154,6 +154,8 @@
             self.friends[number] = [NSMutableDictionary dictionaryWithDictionary:self.friends[number]];
             self.friends[number][@"avatar"] = photo;
             
+            cell.usersInfo = self.friends[number];
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                cell.avatar.image = [UIImage imageWithData:photo];
             });
@@ -161,37 +163,6 @@
     }
     
     return cell;
-}
-
-
-- (void)chooseFriend:(IWSegmentControl *)segmentControl {
-    int selectedIndex = segmentControl.selectedSegmentIndex;
-    int previousIndex = segmentControl.previousSelectedIndex;
-    NSLog(@"%d", selectedIndex);
-    
-    IWVkPersonTableViewCell *cell = (IWVkPersonTableViewCell *)segmentControl.superview;
-    int indexOfSelectedUser = [self.tableView indexPathForCell:cell].row;
-    NSString *toWhoVkId = self.friends[indexOfSelectedUser][@"id"];
-    
-    //manage different cases:
-    //prev == -1 and selected != -1 -> POST new
-    //prev != -1 and selected != prev -> PUT
-    //prev != -1 and selected == prev -> DELETE
-    if (previousIndex == IndexTypeNothing && selectedIndex != IndexTypeNothing) {
-        //post
-        IWConfession *newConfession = [IWConfession confessionWithWhoVkId:[[IWVkManager sharedManager] currentUserVkId]
-                                                                toWhoVkId:toWhoVkId
-                                                                     type:selectedIndex];
-        [[IWWebApiManager sharedManager] postConfession:newConfession];
-    }
-    if (previousIndex != IndexTypeNothing && selectedIndex != previousIndex) {
-        //put
-    }
-    if (previousIndex != IndexTypeNothing && selectedIndex == previousIndex) {
-        //delete
-    }
-    
-    segmentControl.previousSelectedIndex = selectedIndex;
 }
 
 

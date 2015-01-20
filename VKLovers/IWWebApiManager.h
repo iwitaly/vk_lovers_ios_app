@@ -29,7 +29,7 @@
 
 //users/who_vk_id/who_confession/to_who_vk_id/
 - (IWConfession *)getConfessionFromUser:(IWUser *)who toUser:(IWUser *)toWho;
-- (void)changeConfessionFromUser:(IWUser *)who toUser:(IWUser *)toWho toType:(ConfessionType)newConfessionType;
+- (void)putConfession:(IWConfession *)confession;
 - (void)deleteConfession:(IWConfession *)confession;
 
 @end

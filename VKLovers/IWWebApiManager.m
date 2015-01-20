@@ -102,11 +102,11 @@ static const NSString *type = @"type";
     return nil;
 }
 
-- (void)changeConfessionFromUser:(IWUser *)who toUser:(IWUser *)toWho toType:(ConfessionType)newConfessionType {
-    NSString *url = [kBaseUrl stringByAppendingFormat:@"%@/who_confession/%@/",who.vk_id, toWho.vk_id];
-    NSDictionary *params = @{who_vk_id : who.vk_id,
-                             to_who_vk_id : toWho.vk_id,
-                             type : @(newConfessionType)
+- (void)putConfession:(IWConfession *)confession; {
+    NSString *url = [kBaseUrl stringByAppendingFormat:@"%@/who_confession/%@/",confession.who_vk_id, confession.to_who_vk_id];
+    NSDictionary *params = @{who_vk_id : confession.who_vk_id,
+                             to_who_vk_id : confession.to_who_vk_id,
+                             type : @(confession.type)
                              };
     [self.manager PUT:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@", responseObject);

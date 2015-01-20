@@ -20,5 +20,8 @@ typedef NS_ENUM(NSInteger, IndexType) {
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;
 @property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet IWSegmentControl *choice;
+@property (weak, nonatomic) NSDictionary *usersInfo;
+
+- (void)chooseFriend:(IWSegmentControl *)segmentControl;
 
 @end
