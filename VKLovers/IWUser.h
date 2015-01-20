@@ -14,5 +14,6 @@
 @property (nonatomic, strong) NSString *mobile;
 @property (nonatomic, strong) NSString *email;
 
++ (IWUser *)userWithVkId:(NSString *)vkId mobile:(NSString *)mobile email:(NSString *)email;
 
 @end

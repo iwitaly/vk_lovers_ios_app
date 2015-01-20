@@ -11,7 +11,6 @@
 
 #define VK_APP_ID @"4736584"
 #define NEXT_CONTROLLER_SEGUE_ID @"START_WORK"
-#define k_Notification_Recieved_token @"k_Notification_Recieved_token"
 
 @interface IWLoginViewController ()
 
@@ -21,12 +20,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startWork) name:k_Notification_Recieved_token object:nil];
 }
 
 - (void)startWork {
     [self performSegueWithIdentifier:NEXT_CONTROLLER_SEGUE_ID sender:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (IBAction)loginWithVK {

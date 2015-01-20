@@ -19,5 +19,6 @@ typedef NS_ENUM(NSInteger, ConfessionType) {
 @property (nonatomic, strong) NSString *to_who_vk_id;
 @property ConfessionType type;
 
++ (IWConfession *)confessionWithWhoVkId:(NSString *)whoVkId toWhoVkId:(NSString *)toWhoVkId type:(ConfessionType)type;
 
 @end

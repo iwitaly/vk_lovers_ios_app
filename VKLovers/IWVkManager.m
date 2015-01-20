@@ -8,12 +8,25 @@
 
 #import "AppDelegate.h"
 #import "IWVkManager.h"
+#import "IWWebApiManager.h"
 
 #define VK_APP_ID @"4736584"
 #define NEXT_CONTROLLER_SEGUE_ID @"START_WORK"
 #define k_Notification_Recieved_token @"k_Notification_Recieved_token"
+#define kMainViewController @"kMainViewController"
+
+@interface IWVkManager()
+
+@end
 
 @implementation IWVkManager 
+
+- (NSString *)currentUserVkId {
+    if (!_currentUserVkId) {
+        _currentUserVkId = [[NSUserDefaults standardUserDefaults] objectForKey:@"CurrentUserVkID"];
+    }
+    return _currentUserVkId;
+}
 
 + (instancetype)sharedManager {
     static IWVkManager *sharedManager = nil;
@@ -96,16 +109,28 @@
  @param newToken new token for API requests
  */
 - (void)vkSdkReceivedNewToken:(VKAccessToken *)newToken {
-//    [[NSNotificationCenter defaultCenter] postNotificationName:k_Notification_Recieved_token object:nil];
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 //    [delegate.window.rootViewController performSegueWithIdentifier:NEXT_CONTROLLER_SEGUE_ID sender:nil];
-  
-  
-  // The better way, I think
-  // но вообще не так все надо делать, не такая иерархия контроллеров. Спроси как лучше потом
-  UIViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"kMainViewController"];
-  delegate.window.rootViewController = vc;
-  
+    
+    //send basic info to server
+    [[[VKApi users] get:@{VK_API_FIELDS : @"contacts"}] executeWithResultBlock:^(VKResponse *response) {
+        NSString *mobile = response.json[0][@"mobile_phone"];
+        NSString *email = newToken.email == nil ? @"" : newToken.email;
+        NSString *vkId = newToken.userId;
+        
+        [[NSUserDefaults standardUserDefaults] setObject:vkId forKey:@"CurrentUserVkID"];
+        
+        IWUser *currentUser = [IWUser userWithVkId:vkId mobile:mobile email:email];
+        NSLog(@"%@", currentUser);
+        [[IWWebApiManager sharedManager] postUser:currentUser];
+    } errorBlock:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
+    
+    // The better way, I think
+    // но вообще не так все надо делать, не такая иерархия контроллеров. Спроси как лучше потом
+    UIViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kMainViewController];
+    delegate.window.rootViewController = vc;
 }
 
 @end

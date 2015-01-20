@@ -11,6 +11,8 @@
 #import "IWVkPersonTableViewCell.h"
 #import "AppDelegate.h"
 #import "Friend.h"
+#import "IWUser.h"
+#import "IWWebApiManager.h"
 #import <malloc/malloc.h>
 
 #define k_NotificationName_UsersLoaded @"k_NotificationName_UsersLoaded"
@@ -37,20 +39,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //check if db is empty, if YES -> load from VK
-    //else load from local base
-//    [self coreDataClearBase];
+    self.tableView.allowsSelection = NO;
     
-//    if ([self coreDataIsEmptyForFriends]) {
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(handlerFriends:)
      name:k_NotificationName_UsersLoaded object:nil];
     
     [self loadFriendList];
-//    } else {
-//        NSLog(@"%@", ((Friend *)[self coreDataAllFriends][0]).avatar);
-//    }
 }
 
 - (void)handlerFriends:(NSNotification *)jsonData {
@@ -61,7 +57,6 @@
      selector:@selector(handleUser:)
      name:k_NotificationName_UserInfo object:nil];
 
-//    NSLog(@"%@", self.friends);
     [self filterFriends];
 }
 
@@ -81,7 +76,7 @@
         [[[UIAlertView alloc] initWithTitle:@"No sex!" message:@"No sex mentioned in your profile" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }
     
-    [self coreDataAddFriends:newArray];
+//    [self coreDataAddFriends:newArray];
     
     self.friends = newArray;
     [self.tableView reloadData];
@@ -142,16 +137,61 @@
     IWVkPersonTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"VK_FRIEND" forIndexPath:indexPath];
     NSUInteger number = indexPath.row;
     
+    //////
+    if (![cell.choice allTargets].count) {
+        [cell.choice addTarget:self action:@selector(chooseFriend:) forControlEvents:UIControlEventAllEvents];
+        cell.choice.previousSelectedIndex = -1;
+    }
+    /////
+    
     cell.name.text = [self.friends[number][@"first_name"] stringByAppendingFormat:@" %@",self.friends[number][@"last_name"]];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.friends[number][@"photo_50"]]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-           cell.avatar.image = [UIImage imageWithData:photo];
+    
+    if (self.friends[number][@"avatar"]) {
+        cell.avatar.image = [UIImage imageWithData:self.friends[number][@"avatar"]];
+    } else {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.friends[number][@"photo_50"]]];
+            self.friends[number] = [NSMutableDictionary dictionaryWithDictionary:self.friends[number]];
+            self.friends[number][@"avatar"] = photo;
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+               cell.avatar.image = [UIImage imageWithData:photo];
+            });
         });
-    });
+    }
     
     return cell;
+}
+
+
+- (void)chooseFriend:(IWSegmentControl *)segmentControl {
+    int selectedIndex = segmentControl.selectedSegmentIndex;
+    int previousIndex = segmentControl.previousSelectedIndex;
+    NSLog(@"%d", selectedIndex);
+    
+    IWVkPersonTableViewCell *cell = (IWVkPersonTableViewCell *)segmentControl.superview;
+    int indexOfSelectedUser = [self.tableView indexPathForCell:cell].row;
+    NSString *toWhoVkId = self.friends[indexOfSelectedUser][@"id"];
+    
+    //manage different cases:
+    //prev == -1 and selected != -1 -> POST new
+    //prev != -1 and selected != prev -> PUT
+    //prev != -1 and selected == prev -> DELETE
+    if (previousIndex == IndexTypeNothing && selectedIndex != IndexTypeNothing) {
+        //post
+        IWConfession *newConfession = [IWConfession confessionWithWhoVkId:[[IWVkManager sharedManager] currentUserVkId]
+                                                                toWhoVkId:toWhoVkId
+                                                                     type:selectedIndex];
+        [[IWWebApiManager sharedManager] postConfession:newConfession];
+    }
+    if (previousIndex != IndexTypeNothing && selectedIndex != previousIndex) {
+        //put
+    }
+    if (previousIndex != IndexTypeNothing && selectedIndex == previousIndex) {
+        //delete
+    }
+    
+    segmentControl.previousSelectedIndex = selectedIndex;
 }
 
 

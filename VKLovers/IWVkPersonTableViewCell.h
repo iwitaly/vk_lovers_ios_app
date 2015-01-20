@@ -7,11 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "IWSegmentControl.h"
+
+typedef NS_ENUM(NSInteger, IndexType) {
+    IndexTypeNothing = -1,
+    IndexTypeDate = 0,
+    IndexTypeSex = 1
+};
 
 @interface IWVkPersonTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;
 @property (weak, nonatomic) IBOutlet UILabel *name;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *choice;
+@property (weak, nonatomic) IBOutlet IWSegmentControl *choice;
 
 @end

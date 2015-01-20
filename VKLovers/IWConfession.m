@@ -10,4 +10,13 @@
 
 @implementation IWConfession
 
++ (IWConfession *)confessionWithWhoVkId:(NSString *)whoVkId toWhoVkId:(NSString *)toWhoVkId type:(ConfessionType)type {
+    IWConfession *confession = [[IWConfession alloc] init];
+    confession.who_vk_id = whoVkId;
+    confession.to_who_vk_id = toWhoVkId;
+    confession.type = type;
+    
+    return confession;
+}
+
 @end

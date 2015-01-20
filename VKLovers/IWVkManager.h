@@ -10,6 +10,8 @@
 
 @interface IWVkManager : NSObject <VKSdkDelegate>
 
+@property (nonatomic, strong) NSString *currentUserVkId;
+
 //info about current user
 + (VKRequest *)info;
 //info about his friends: name, last name, sex, photo 50x50
