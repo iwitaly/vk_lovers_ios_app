@@ -21,7 +21,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-//    IWUser *vitaly = [IWUser userWithVkId:@"167211370" mobile:@"unknown" email:@"iwitaly@me.com"];
+//    IWUser *vitaly = [IWUser userWithVkId:@"167211370" mobile:@"" email:@"iwitaly@me.com"];
 //    IWUser *tumanov = [IWUser userWithVkId:@"tumanov" mobile:@"1213" email:@"tumanov@yandex.ru"];
 //    IWConfession *confession = [IWConfession confessionWithWhoVkId:@"iwitaly" toWhoVkId:@"tumanov" type:ConfessionTypeDate];
 //    [[IWWebApiManager sharedManager] postUser:vitaly];

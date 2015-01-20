@@ -23,5 +23,6 @@ typedef NS_ENUM(NSInteger, IndexType) {
 @property (weak, nonatomic) NSDictionary *usersInfo;
 
 - (void)chooseFriend:(IWSegmentControl *)segmentControl;
+- (void)setupSegmentControlUsingConfessions:(NSArray *)confessions;
 
 @end

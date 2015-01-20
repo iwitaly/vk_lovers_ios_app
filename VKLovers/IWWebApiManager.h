@@ -10,6 +10,7 @@
 #import "IWUser.h"
 #import "IWConfession.h"
 
+#define k_NotificationGotConfessionsFromServer @"kNotificationGotConfessionsFromServer"
 @interface IWWebApiManager : NSObject
 
 + (instancetype)sharedManager;
@@ -24,8 +25,9 @@
 
 //users/who_vk_id/who_confession/
 //gonna make throw notifications
-- (NSArray *)getWhoConfessionListForUser:(IWUser *)user;
+- (void)getWhoConfessionListForUser:(IWUser *)user;
 - (void)postConfession:(IWConfession *)confession;
+- (void)getWhoConfessionListForCurrentUser;
 
 //users/who_vk_id/who_confession/to_who_vk_id/
 - (IWConfession *)getConfessionFromUser:(IWUser *)who toUser:(IWUser *)toWho;

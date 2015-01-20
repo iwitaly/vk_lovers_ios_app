@@ -7,6 +7,7 @@
 //
 
 #import "IWWebApiManager.h"
+#import "IWVkManager.h"
 #import <AFNetworking/AFNetworking.h>
 
 //#define kBaseUrl @"http://vklovers.herokuapp.com/users/"
@@ -66,15 +67,19 @@ static const NSString *type = @"type";
 }
 
 ////users/who_vk_id/who_confession/
-- (NSArray *)getWhoConfessionListForUser:(IWUser *)user {
+- (void)getWhoConfessionListForUser:(IWUser *)user {
     NSString *url = [kBaseUrl stringByAppendingFormat:@"%@/who_confession/",user.vk_id];
     [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:k_NotificationGotConfessionsFromServer object:responseObject];
         NSLog(@"%@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);
     }];
-    
-    return nil;
+}
+
+- (void)getWhoConfessionListForCurrentUser {
+    IWUser *currentUser = [IWUser userWithVkId:[IWVkManager sharedManager].currentUserVkId mobile:nil email:nil];
+    [self getWhoConfessionListForUser:currentUser];
 }
 
 - (void)postConfession:(IWConfession *)confession {

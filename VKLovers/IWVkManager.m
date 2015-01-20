@@ -129,7 +129,7 @@
     
     // The better way, I think
     // но вообще не так все надо делать, не такая иерархия контроллеров. Спроси как лучше потом
-    UIViewController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kMainViewController];
+    UINavigationController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kMainViewController];
     delegate.window.rootViewController = vc;
 }
 

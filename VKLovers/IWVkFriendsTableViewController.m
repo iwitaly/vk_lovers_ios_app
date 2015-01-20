@@ -22,6 +22,7 @@
 @interface IWVkFriendsTableViewController ()
 
 @property (nonatomic, strong) NSMutableArray *friends;
+@property (nonatomic, strong) NSMutableArray *confessions;
 
 @property (nonatomic, strong) NSManagedObjectContext *context;
 
@@ -37,26 +38,36 @@
     return _context;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.tableView.allowsSelection = NO;
-    
+- (void)viewDidAppear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(handlerFriends:)
      name:k_NotificationName_UsersLoaded object:nil];
-    
-    [self loadFriendList];
-}
-
-- (void)handlerFriends:(NSNotification *)jsonData {
-    self.friends = jsonData.object;
     
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(handleUser:)
      name:k_NotificationName_UserInfo object:nil];
 
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(handleConfessions:)
+     name:k_NotificationGotConfessionsFromServer object:nil];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.tableView.allowsSelection = NO;
+    
+    [self loadFriendList];
+}
+
+- (void)handlerFriends:(NSNotification *)jsonData {
+    self.friends = jsonData.object;
     [self filterFriends];
 }
 
@@ -80,30 +91,21 @@
     
     self.friends = newArray;
     [self.tableView reloadData];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)coreDataAddFriends:(NSMutableArray *)friends {
-    //toBase.choice =
-    
-    for (id friend in friends) {
-        Friend *toBase = [NSEntityDescription insertNewObjectForEntityForName:k_Entity_Name_Friend inManagedObjectContext:self.context];
-        toBase.name = [friend[@"first_name"] stringByAppendingFormat:@" %@", friend[@"last_name"]];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:friend[@"photo_50"]]];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-//                NSLog(@"%d"(malloc_size((__bridge const void *)(toBase.name)) + malloc_size((__bridge const void *)(photo))));
-                toBase.avatar = photo;
-                NSError *error = nil;
-                [self.context save:&error];
-
-            });
-        });
+- (void)handleConfessions:(NSNotification *)notification {
+    if (((NSArray *)notification.object).count) {
+        self.confessions = [NSMutableArray arrayWithArray:notification.object];
+    } else {
+        self.confessions = [NSMutableArray arrayWithArray:@[]];
     }
 }
 
 - (void)loadFriendList {
+    [[IWWebApiManager sharedManager] getWhoConfessionListForCurrentUser];
+    
     [[IWVkManager allFriends] executeWithResultBlock:^(VKResponse *response) {
         [[NSNotificationCenter defaultCenter]
          postNotificationName:k_NotificationName_UsersLoaded object:response.json[@"items"]];
@@ -140,7 +142,7 @@
     //////
     if (![cell.choice allTargets].count) {
         [cell.choice addTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
-        cell.choice.previousSelectedIndex = -1;
+//        cell.choice.previousSelectedIndex = -1;
     }
     /////
     
@@ -157,7 +159,7 @@
             cell.usersInfo = self.friends[number];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-               cell.avatar.image = [UIImage imageWithData:photo];
+                cell.avatar.image = [UIImage imageWithData:photo];
             });
         });
     }
@@ -165,9 +167,28 @@
     return cell;
 }
 
-
 /*
 #pragma mark CoreData
+- (void)coreDataAddFriends:(NSMutableArray *)friends {
+    //toBase.choice =
+    
+    for (id friend in friends) {
+        Friend *toBase = [NSEntityDescription insertNewObjectForEntityForName:k_Entity_Name_Friend inManagedObjectContext:self.context];
+        toBase.name = [friend[@"first_name"] stringByAppendingFormat:@" %@", friend[@"last_name"]];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:friend[@"photo_50"]]];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //                NSLog(@"%d"(malloc_size((__bridge const void *)(toBase.name)) + malloc_size((__bridge const void *)(photo))));
+                toBase.avatar = photo;
+                NSError *error = nil;
+                [self.context save:&error];
+                
+            });
+        });
+    }
+}
+
 - (BOOL)coreDataIsEmptyForFriends {
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:k_Entity_Name_Friend];
 //    NSEntityDescription *entity = [NSEntityDescription entityForName:k_Entity_Name_Friend inManagedObjectContext:self.context];

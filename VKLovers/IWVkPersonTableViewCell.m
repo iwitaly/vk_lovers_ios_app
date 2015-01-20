@@ -53,4 +53,16 @@
     segmentControl.previousSelectedIndex = selectedIndex;
 }
 
+- (void)setupSegmentControlUsingConfessions:(NSArray *)confessions {
+    for (id confession in confessions) {
+        NSLog(@"%@, %@", confession[@"to_who_vk_id"], self.usersInfo[@"id"]);
+//        NSLog(@"%@, %@", [[confession[@"to_who_vk_id"] class] description], [[self.usersInfo[@"id"] class] description]);
+        NSString *number = [NSString stringWithFormat:@"%@",self.usersInfo[@"id"]];
+        
+        if ([confession[@"to_who_vk_id"] isEqualToString:number]) {
+            self.choice.selectedSegmentIndex = [(NSNumber *)confession[@"type"] integerValue];
+        }
+    }
+}
+
 @end
