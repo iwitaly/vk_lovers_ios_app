@@ -98,6 +98,7 @@
 - (void)handleConfessions:(NSNotification *)notification {
     if (((NSArray *)notification.object).count) {
         self.confessions = [NSMutableArray arrayWithArray:notification.object];
+//        NSLog(@"%@", self.confessions);
     } else {
         self.confessions = [NSMutableArray arrayWithArray:@[]];
     }
@@ -159,6 +160,7 @@
             cell.usersInfo = self.friends[number];
             
             dispatch_async(dispatch_get_main_queue(), ^{
+                [cell setupSegmentControlUsingConfessions:self.confessions];
                 cell.avatar.image = [UIImage imageWithData:photo];
             });
         });

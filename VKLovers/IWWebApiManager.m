@@ -71,7 +71,7 @@ static const NSString *type = @"type";
     NSString *url = [kBaseUrl stringByAppendingFormat:@"%@/who_confession/",user.vk_id];
     [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         [[NSNotificationCenter defaultCenter] postNotificationName:k_NotificationGotConfessionsFromServer object:responseObject];
-        NSLog(@"%@", responseObject);
+        NSLog(@"Who confession list %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);
     }];
