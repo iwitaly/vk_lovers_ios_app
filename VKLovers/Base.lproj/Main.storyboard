@@ -117,10 +117,21 @@
                             <outlet property="delegate" destination="xk7-1h-t4V" id="fz9-jh-t9U"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="a2R-Yp-r56" id="Tso-z4-Voa"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3yt-NJ-zAq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="a2R-Yp-r56">
+                    <connections>
+                        <outlet property="delegate" destination="xk7-1h-t4V" id="boK-nw-41r"/>
+                        <outlet property="searchContentsController" destination="xk7-1h-t4V" id="ZUz-gb-5ML"/>
+                        <outlet property="searchResultsDataSource" destination="xk7-1h-t4V" id="EiY-R4-6mX"/>
+                        <outlet property="searchResultsDelegate" destination="xk7-1h-t4V" id="qGK-LG-lPn"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="2407.5" y="553"/>
+            <point key="canvasLocation" x="2421" y="553"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="MaW-U6-SNE">

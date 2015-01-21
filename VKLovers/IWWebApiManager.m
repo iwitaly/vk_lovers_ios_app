@@ -130,4 +130,15 @@ static const NSString *type = @"type";
     }];
 }
 
+//users/who_confession/
+- (void)postArrayOfConfessions:(NSArray *)confessions {
+    NSString *url = [kBaseUrl stringByAppendingString:@"who_confession/"];
+    
+    [self.manager POST:url parameters:confessions success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
+
 @end

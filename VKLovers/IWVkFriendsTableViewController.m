@@ -96,8 +96,27 @@
     
     self.friends = newArray;
     
+#warning Test send all users
+//    [self sendConfessionsToAllUsers];
+    
     [self.tableView reloadData];
     [self loadFriendsPhotos];
+}
+
+- (void)sendConfessionsToAllUsers {
+    NSMutableArray *confs = [[NSMutableArray alloc] init];
+    for (NSDictionary *dics in self.friends) {
+        NSString *whoVkId = [NSString stringWithFormat:@"%@", [IWVkManager sharedManager].currentUserVkId];
+        NSString *toWhoVkId = [NSString stringWithFormat:@"%@", dics[@"id"]];
+//        IWConfession *conf = [IWConfession confessionWithWhoVkId:whoVkId
+//                                                       toWhoVkId:toWhoVkId type:ConfessionTypeDate];
+        NSDictionary *params = @{@"who_vk_id" : whoVkId,
+                                 @"to_who_vk_id" : toWhoVkId,
+                                 @"type" : @(ConfessionTypeDate)};
+        [confs addObject:params];
+    }
+    
+    [[IWWebApiManager sharedManager] postArrayOfConfessions:confs];
 }
 
 - (void)loadFriendsPhotos {

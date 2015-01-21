@@ -34,4 +34,6 @@
 - (void)putConfession:(IWConfession *)confession;
 - (void)deleteConfession:(IWConfession *)confession;
 
+//users/who_confession/
+- (void)postArrayOfConfessions:(NSArray *)confessions;
 @end
