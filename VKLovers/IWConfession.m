@@ -19,4 +19,20 @@
     return confession;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@+%@+%d", self.who_vk_id, self.to_who_vk_id, self.type];
+}
+
+- (BOOL)isEqual:(id)object {
+    if ([object isKindOfClass:[IWConfession class]]) {
+        IWConfession *anotherObject = (IWConfession *)object;
+        
+        return ([self.who_vk_id isEqual:anotherObject.who_vk_id] &&
+                [self.to_who_vk_id isEqual:anotherObject.to_who_vk_id] &&
+                self.type == anotherObject.type);
+    }
+    
+    return NO;
+}
+
 @end

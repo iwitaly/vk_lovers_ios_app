@@ -17,6 +17,7 @@
 
 #define k_NotificationName_UsersLoaded @"k_NotificationName_UsersLoaded"
 #define k_NotificationName_UserInfo @"k_NotificationName_UserInfo"
+#define k_NotificationName_LoadPhoto @"k_NotificationName_LoadPhoto"
 #define k_Entity_Name_Friend @"Friend"
 
 @interface IWVkFriendsTableViewController ()
@@ -53,6 +54,11 @@
      addObserver:self
      selector:@selector(handleConfessions:)
      name:k_NotificationGotConfessionsFromServer object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(handleLoadPhoto:)
+     name:k_NotificationName_LoadPhoto object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -81,16 +87,30 @@
     if (sexToShow.integerValue) {
         for (id friend in self.friends) {
             if ([friend[@"sex"] isEqualToNumber:sexToShow]) {
-                [newArray addObject:friend];
+                [newArray addObject:[NSMutableDictionary dictionaryWithDictionary:friend]];
             }
         }
     } else {
         [[[UIAlertView alloc] initWithTitle:@"No sex!" message:@"No sex mentioned in your profile" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
     }
     
-//    [self coreDataAddFriends:newArray];
-    
     self.friends = newArray;
+    
+    [self.tableView reloadData];
+    [self loadFriendsPhotos];
+}
+
+- (void)loadFriendsPhotos {
+    for (int i = 0; i < self.friends.count; ++i) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.friends[i][@"photo_50"]]];
+                self.friends[i][@"avatar"] = photo;
+            });
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:k_NotificationName_LoadPhoto object:nil];
+}
+
+-(void)handleLoadPhoto:(NSNotification *)notification {
     [self.tableView reloadData];
 }
 
@@ -98,6 +118,14 @@
 - (void)handleConfessions:(NSNotification *)notification {
     if (((NSArray *)notification.object).count) {
         self.confessions = [NSMutableArray arrayWithArray:notification.object];
+        for (int i = 0; i < self.confessions.count; ++i) {
+            NSString *whoVKid = [NSString stringWithFormat:@"%@", self.confessions[i][@"who_vk_id"]];
+            NSString *toWhoVKid = [NSString stringWithFormat:@"%@", self.confessions[i][@"to_who_vk_id"]];
+            IWConfession *newConfession = [IWConfession confessionWithWhoVkId:whoVKid
+                                                                    toWhoVkId:toWhoVKid
+                                                                         type:(ConfessionType)[self.confessions[i][@"type"] integerValue]];
+            self.confessions[i] = newConfession;
+        }
     } else {
         self.confessions = [NSMutableArray arrayWithArray:@[]];
     }
@@ -141,32 +169,20 @@
     IWVkPersonTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"VK_FRIEND" forIndexPath:indexPath];
     NSUInteger number = indexPath.row;
     
-//    if ([@[@1] containsObject:@(number)]) {
-//        NSLog(@"%d", number);
-//        cell.choice.selectedSegmentIndex = 1;
-//    }
-    
-    [cell.choice removeTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
+//    [cell.choice removeTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
     [cell.choice addTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
     
     cell.name.text = [self.friends[number][@"first_name"] stringByAppendingFormat:@" %@",self.friends[number][@"last_name"]];
+    cell.usersInfo = self.friends[number];
+    cell.confessions = self.confessions;
     
     if (self.friends[number][@"avatar"]) {
         cell.avatar.image = [UIImage imageWithData:self.friends[number][@"avatar"]];
     } else {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.friends[number][@"photo_50"]]];
-            self.friends[number] = [NSMutableDictionary dictionaryWithDictionary:self.friends[number]];
-            self.friends[number][@"avatar"] = photo;
-            
-            cell.usersInfo = self.friends[number];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                cell.avatar.image = [UIImage imageWithData:photo];
-                [cell setupSegmentControlUsingConfessions:self.confessions];
-            });
-        });
+        //default image
     }
+    
+    [cell setupSegmentControlUsingConfessions:self.confessions];
     
     return cell;
 }

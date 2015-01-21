@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, IndexType) {
 @property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet IWSegmentControl *choice;
 @property (weak, nonatomic) NSDictionary *usersInfo;
+@property (weak, nonatomic) NSMutableArray *confessions;
 
 - (void)chooseFriend:(IWSegmentControl *)segmentControl;
 - (void)setupSegmentControlUsingConfessions:(NSArray *)confessions;
