@@ -123,14 +123,18 @@
         IWUser *currentUser = [IWUser userWithVkId:vkId mobile:mobile email:email];
         NSLog(@"%@", currentUser);
         [[IWWebApiManager sharedManager] postUser:currentUser];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // The better way, I think
+            // но вообще не так все надо делать, не такая иерархия контроллеров. Спроси как лучше потом
+            UINavigationController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kMainViewController];
+            delegate.window.rootViewController = vc;
+        });
+        
     } errorBlock:^(NSError *error) {
         NSLog(@"%@", error);
     }];
     
-    // The better way, I think
-    // но вообще не так все надо делать, не такая иерархия контроллеров. Спроси как лучше потом
-    UINavigationController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kMainViewController];
-    delegate.window.rootViewController = vc;
 }
 
 @end
