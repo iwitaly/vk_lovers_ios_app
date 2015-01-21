@@ -79,7 +79,7 @@
                                                 <rect key="frame" x="66" y="32" width="113" height="35"/>
                                             </variation>
                                         </label>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="x44-hS-I9m" customClass="IWSegmentControl">
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="OiG-Q6-f3m" customClass="IWSegmentControl">
                                             <rect key="frame" x="-61" y="-14" width="123" height="29"/>
                                             <segments>
                                                 <segment title="First"/>
@@ -94,20 +94,20 @@
                                         <mask key="subviews">
                                             <exclude reference="nhl-kx-g7e"/>
                                             <exclude reference="tB4-AB-KQS"/>
-                                            <exclude reference="x44-hS-I9m"/>
+                                            <exclude reference="OiG-Q6-f3m"/>
                                         </mask>
                                     </variation>
                                     <variation key="widthClass=compact">
                                         <mask key="subviews">
                                             <include reference="nhl-kx-g7e"/>
                                             <include reference="tB4-AB-KQS"/>
-                                            <include reference="x44-hS-I9m"/>
+                                            <include reference="OiG-Q6-f3m"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="avatar" destination="nhl-kx-g7e" id="sbS-eh-XMN"/>
-                                    <outlet property="choice" destination="x44-hS-I9m" id="4zq-3k-ihI"/>
+                                    <outlet property="choice" destination="OiG-Q6-f3m" id="4fl-nb-3vN"/>
                                     <outlet property="name" destination="tB4-AB-KQS" id="rU4-gb-3bR"/>
                                 </connections>
                             </tableViewCell>

@@ -14,13 +14,7 @@
 @implementation IWVkPersonTableViewCell
 
 - (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
+    self.choice.previousSelectedIndex = -1;
 }
 
 - (void)chooseFriend:(IWSegmentControl *)segmentControl {
@@ -61,12 +55,15 @@
         NSString *number = [NSString stringWithFormat:@"%@", self.usersInfo[@"id"]];
         
         if ([confession[@"to_who_vk_id"] isEqualToString:number]) {
-            NSLog(@"BINGO!");
             self.choice.selectedSegmentIndex = [(NSNumber *)confession[@"type"] integerValue];
         }
     }
-    
-    NSLog(@"\n");
+//    NSLog(@"\n");
 }
+
+- (void)prepareForReuse {
+    self.choice.selectedSegmentIndex = -1;
+}
+
 
 @end

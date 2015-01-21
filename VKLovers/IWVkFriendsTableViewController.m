@@ -68,6 +68,7 @@
 
 - (void)handlerFriends:(NSNotification *)jsonData {
     self.friends = jsonData.object;
+    //filter by sex, send notification
     [self filterFriends];
 }
 
@@ -91,22 +92,22 @@
     
     self.friends = newArray;
     [self.tableView reloadData];
-    
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+//got notifications from server
 - (void)handleConfessions:(NSNotification *)notification {
     if (((NSArray *)notification.object).count) {
         self.confessions = [NSMutableArray arrayWithArray:notification.object];
-//        NSLog(@"%@", self.confessions);
     } else {
         self.confessions = [NSMutableArray arrayWithArray:@[]];
     }
 }
 
 - (void)loadFriendList {
+    //load confessions from server, handle notification
     [[IWWebApiManager sharedManager] getWhoConfessionListForCurrentUser];
     
+    //got friends from server, handle notification
     [[IWVkManager allFriends] executeWithResultBlock:^(VKResponse *response) {
         [[NSNotificationCenter defaultCenter]
          postNotificationName:k_NotificationName_UsersLoaded object:response.json[@"items"]];
@@ -140,12 +141,13 @@
     IWVkPersonTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"VK_FRIEND" forIndexPath:indexPath];
     NSUInteger number = indexPath.row;
     
-    //////
-    if (![cell.choice allTargets].count) {
-        [cell.choice addTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
-//        cell.choice.previousSelectedIndex = -1;
-    }
-    /////
+//    if ([@[@1] containsObject:@(number)]) {
+//        NSLog(@"%d", number);
+//        cell.choice.selectedSegmentIndex = 1;
+//    }
+    
+    [cell.choice removeTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
+    [cell.choice addTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
     
     cell.name.text = [self.friends[number][@"first_name"] stringByAppendingFormat:@" %@",self.friends[number][@"last_name"]];
     
@@ -160,8 +162,8 @@
             cell.usersInfo = self.friends[number];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [cell setupSegmentControlUsingConfessions:self.confessions];
                 cell.avatar.image = [UIImage imageWithData:photo];
+                [cell setupSegmentControlUsingConfessions:self.confessions];
             });
         });
     }
