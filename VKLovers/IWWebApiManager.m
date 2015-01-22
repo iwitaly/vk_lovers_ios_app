@@ -108,16 +108,7 @@ static const NSString *type = @"type";
 }
 
 - (void)putConfession:(IWConfession *)confession; {
-    NSString *url = [kBaseUrl stringByAppendingFormat:@"%@/who_confession/%@/",confession.who_vk_id, confession.to_who_vk_id];
-    NSDictionary *params = @{who_vk_id : confession.who_vk_id,
-                             to_who_vk_id : confession.to_who_vk_id,
-                             type : @(confession.type)
-                             };
-    [self.manager PUT:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@", responseObject);
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"%@", error);
-    }];
+    [self postConfession:confession];
 }
 
 - (void)deleteConfession:(IWConfession *)confession {

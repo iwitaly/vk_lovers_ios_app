@@ -33,23 +33,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter]
      addObserver:self
-     selector:@selector(handlerFriends:)
-     name:k_NotificationName_UsersLoaded object:nil];
-    
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(handleUser:)
-     name:k_NotificationName_UserInfo object:nil];
-
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
      selector:@selector(handleConfessions:)
      name:k_NotificationGotConfessionsFromServer object:nil];
-    
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(handleLoadPhoto:)
-     name:k_NotificationName_LoadPhoto object:nil];
     
     if (![[IWVkManager sharedManager] validVKSession]) {
         [self performSegueWithIdentifier:k_Segue_Login sender:nil];
@@ -67,14 +52,7 @@
     self.tableView.allowsSelection = NO;
 }
 
-- (void)handlerFriends:(NSNotification *)jsonData {
-    self.friends = jsonData.object;
-    //filter by sex, send notification
-    [self filterFriends];
-}
-
-- (void)handleUser:(NSNotification *)userInfo {
-    NSNumber *sex = userInfo.object;
+- (void)filterFriendsBySex:(NSNumber *)sex {
     NSMutableArray *newArray = [[NSMutableArray alloc] init];
     NSNumber *sexToShow = (sex.integerValue == 2) ? @1 : @2;
     sexToShow = !sex ? @0 : sexToShow;
@@ -136,17 +114,16 @@
     
     //got friends from server, handle notification
     [[IWVkManager allFriends] executeWithResultBlock:^(VKResponse *response) {
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:k_NotificationName_UsersLoaded object:response.json[@"items"]];
+        self.friends = response.json[@"items"];
+        [self loadUsersSex];
     } errorBlock:^(NSError *error) {
         NSLog(@"Error with loading friend list %@", error.description);
     }];
 }
 
-- (void)filterFriends {
+- (void)loadUsersSex {
     [[IWVkManager info] executeWithResultBlock:^(VKResponse *response) {
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:k_NotificationName_UserInfo object:response.json[0][@"sex"]];
+        [self filterFriendsBySex:response.json[0][@"sex"]];
     } errorBlock:^(NSError *error) {
         NSLog(@"Error with getting users info %@", error);
     }];

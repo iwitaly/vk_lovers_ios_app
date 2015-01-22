@@ -70,10 +70,7 @@
 
 - (void)setupSegmentControlUsingConfessions:(NSArray *)confessions {
     for (IWConfession *confession in confessions) {
-//        NSLog(@"%@", confession[@"to_who_vk_id"]);
-//        NSLog(@"%@, %@", [[confession[@"to_who_vk_id"] class] description], [[self.usersInfo[@"id"] class] description]);
         NSString *number = [NSString stringWithFormat:@"%@", self.usersInfo[@"id"]];
-//        NSLog(@"%@,%@", confession[@"to_who_vk_id"], number);
         
         if ([confession.to_who_vk_id isEqualToString:number]) {
             self.choice.selectedSegmentIndex = confession.type;
@@ -81,8 +78,6 @@
             return;
         }
     }
-    
-//    NSLog(@"\n");
 }
 
 - (void)prepareForReuse {
