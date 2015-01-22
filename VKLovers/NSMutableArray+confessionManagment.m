@@ -21,8 +21,6 @@
     
     if (confession) {
         [self removeObject:confession];
-    } else {
-        [[NSException exceptionWithName:@"No confession to delete" reason:nil userInfo:nil] raise];
     }
 }
 
