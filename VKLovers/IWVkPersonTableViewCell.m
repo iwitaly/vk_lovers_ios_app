@@ -10,6 +10,7 @@
 #import "IWConfession.h"
 #import "IWVkManager.h"
 #import "IWWebApiManager.h"
+#import "NSMutableArray+confessionManagment.h"
 
 @interface IWVkPersonTableViewCell()
 
@@ -19,13 +20,8 @@
 
 @implementation IWVkPersonTableViewCell
 
-- (void)awakeFromNib {
-    self.choice.previousSelectedIndex = -1;
-}
-
 - (void)chooseFriend:(IWSegmentControl *)segmentControl {
     int selectedIndex = segmentControl.selectedSegmentIndex;
-    int previousIndex = segmentControl.previousSelectedIndex;
 
     NSString *toWhoVkId = [NSString stringWithFormat:@"%@", self.usersInfo[@"id"]];
     //manage different cases:
@@ -37,35 +33,18 @@
     IWConfession *newConfession = [IWConfession confessionWithWhoVkId:whoVKid
                                                             toWhoVkId:toWhoVkId
                                                                  type:selectedIndex];
+    NSLog(@"count %@", self.confessions);
     
-//    NSLog(@"count %@", self.confessions);
-    if (previousIndex == IndexTypeNothing && selectedIndex != IndexTypeNothing) {
-        //post
-        [[IWWebApiManager sharedManager] postConfession:newConfession];
-        [self.confessions addObject:newConfession];
-        segmentControl.previousSelectedIndex = selectedIndex;
-    }
-    if (previousIndex != IndexTypeNothing && selectedIndex != IndexTypeNothing) {
-        //put
-        [[IWWebApiManager sharedManager] putConfession:newConfession];
-        
-        IWConfession *newConfessionUpdated = [IWConfession confessionWithWhoVkId:whoVKid
-                                                                       toWhoVkId:toWhoVkId
-                                                                            type:previousIndex];
-
-        [self.confessions removeObject:newConfessionUpdated];
-        [self.confessions addObject:newConfession];
-    }
-    if (previousIndex != IndexTypeNothing && selectedIndex == IndexTypeNothing) {
-//        delete
+    if (selectedIndex == IndexTypeNothing) {
+        //delete
         [[IWWebApiManager sharedManager] deleteConfession:newConfession];
-        IWConfession *newConfessionUpdated = [IWConfession confessionWithWhoVkId:[[IWVkManager sharedManager] currentUserVkId]
-                                                                       toWhoVkId:toWhoVkId
-                                                                            type:self.choice.previousSelectedIndex];
-        [self.confessions removeObject:newConfessionUpdated];
-        segmentControl.previousSelectedIndex = selectedIndex;
+        [self.confessions deleteConfessionWithWhoVkId:whoVKid toWhoVkId:toWhoVkId];
+    } else {
+        //post or put
+        [[IWWebApiManager sharedManager] postConfession:newConfession];
+        [self.confessions changeConfessionTypeWithWhoVkId:whoVKid toWhoVkId:toWhoVkId andType:selectedIndex];
     }
-//    NSLog(@"count %@", self.confessions);
+    NSLog(@"count %@", self.confessions);
 }
 
 - (void)setupSegmentControlUsingConfessions:(NSArray *)confessions {
@@ -74,7 +53,6 @@
         
         if ([confession.to_who_vk_id isEqualToString:number]) {
             self.choice.selectedSegmentIndex = confession.type;
-            self.choice.previousSelectedIndex = self.choice.selectedSegmentIndex;
             return;
         }
     }
@@ -82,7 +60,6 @@
 
 - (void)prepareForReuse {
     self.avatar.image = nil;
-    self.choice.previousSelectedIndex = self.choice.selectedSegmentIndex;
     self.choice.selectedSegmentIndex = -1;
 }
 

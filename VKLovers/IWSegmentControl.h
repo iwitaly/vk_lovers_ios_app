@@ -10,6 +10,4 @@
 
 @interface IWSegmentControl : UISegmentedControl
 
-@property NSInteger previousSelectedIndex;
-
 @end
