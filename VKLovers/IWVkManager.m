@@ -124,15 +124,12 @@
         IWUser *currentUser = [IWUser userWithVkId:vkId mobile:mobile email:email];
         [[IWWebApiManager sharedManager] postUser:currentUser];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UINavigationController *main = ((UINavigationController *)delegate.window.rootViewController).viewControllers[0];
-            [main.presentedViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-        });
-        
     } errorBlock:^(NSError *error) {
-        NSLog(@"%@", error);
+        NSLog(@"Getting users unfo error %@", error);
     }];
     
+    UINavigationController *main = ((UINavigationController *)delegate.window.rootViewController).viewControllers[0];
+    [main dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

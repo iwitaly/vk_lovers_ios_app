@@ -10,7 +10,6 @@
 #import "IWVkManager.h"
 #import "IWVkPersonTableViewCell.h"
 #import "AppDelegate.h"
-#import "Friend.h"
 #import "IWUser.h"
 #import "IWWebApiManager.h"
 #import <malloc/malloc.h>
@@ -27,19 +26,9 @@
 @property (nonatomic, strong) NSMutableArray *friends;
 @property (nonatomic, strong) NSMutableArray *confessions;
 
-@property (nonatomic, strong) NSManagedObjectContext *context;
-
 @end
 
 @implementation IWVkFriendsTableViewController
-
-- (NSManagedObjectContext *)context {
-    if (!_context) {
-        AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        _context = [delegate managedObjectContext];
-    }
-    return _context;
-}
 
 - (void)viewDidAppear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter]
@@ -106,7 +95,6 @@
 //    [self sendConfessionsToAllUsers];
     
     [self.tableView reloadData];
-    [self loadFriendsPhotos];
 }
 
 - (void)sendConfessionsToAllUsers {
@@ -123,20 +111,6 @@
     }
     
     [[IWWebApiManager sharedManager] postArrayOfConfessions:confs];
-}
-
-- (void)loadFriendsPhotos {
-    for (int i = 0; i < self.friends.count; ++i) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.friends[i][@"photo_50"]]];
-                self.friends[i][@"avatar"] = photo;
-            });
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:k_NotificationName_LoadPhoto object:nil];
-}
-
--(void)handleLoadPhoto:(NSNotification *)notification {
-    [self.tableView reloadData];
 }
 
 //got notifications from server
@@ -201,116 +175,29 @@
     cell.usersInfo = self.friends[number];
     cell.confessions = self.confessions;
     
+    NSString *identifier = [NSString stringWithFormat:@"Cell%d", number];
+    
     if (self.friends[number][@"avatar"]) {
-        cell.avatar.image = [UIImage imageWithData:self.friends[number][@"avatar"]];
+        cell.avatar.image = self.friends[number][@"avatar"];
     } else {
-        //default image
+        char const *s = [identifier  UTF8String];
+        dispatch_queue_t queue = dispatch_queue_create(s, 0);
+
+        dispatch_async(queue, ^{
+            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.friends[number][@"photo_50"]]];
+            UIImage *img = [UIImage imageWithData:photo];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if ([tableView indexPathForCell:cell].row == number) {
+                    self.friends[number][@"avatar"] = img;
+                    cell.avatar.image = self.friends[number][@"avatar"];
+                }
+            });
+        });
     }
     
     [cell setupSegmentControlUsingConfessions:self.confessions];
     
     return cell;
 }
-
-/*
-#pragma mark CoreData
-- (void)coreDataAddFriends:(NSMutableArray *)friends {
-    //toBase.choice =
-    
-    for (id friend in friends) {
-        Friend *toBase = [NSEntityDescription insertNewObjectForEntityForName:k_Entity_Name_Friend inManagedObjectContext:self.context];
-        toBase.name = [friend[@"first_name"] stringByAppendingFormat:@" %@", friend[@"last_name"]];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:friend[@"photo_50"]]];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //                NSLog(@"%d"(malloc_size((__bridge const void *)(toBase.name)) + malloc_size((__bridge const void *)(photo))));
-                toBase.avatar = photo;
-                NSError *error = nil;
-                [self.context save:&error];
-                
-            });
-        });
-    }
-}
-
-- (BOOL)coreDataIsEmptyForFriends {
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:k_Entity_Name_Friend];
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:k_Entity_Name_Friend inManagedObjectContext:self.context];
-    request.fetchLimit = 1;
-    NSError *error = nil;
-    NSArray *results = [self.context executeFetchRequest:request error:&error];
-    if (!request) {
-        NSLog(@"Fetch error: %@", error);
-    }
-    return results.count == 0;
-}
-
-- (NSArray *)coreDataAllFriends {
-    NSFetchRequest *request = [[NSFetchRequest alloc]initWithEntityName:k_Entity_Name_Friend];
-    NSError *error = nil;
-    
-    NSArray *results = [self.context executeFetchRequest:request error:&error];
-    
-    if (error != nil) {
-        NSLog(@"Error with fetching all friends %@", error);
-    }
-    
-    return results;
-}
-
-- (void)coreDataClearBase {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:k_Entity_Name_Friend inManagedObjectContext:self.context];
-    [fetchRequest setEntity:entity];
-    
-    NSError *error;
-    NSArray *items = [self.context executeFetchRequest:fetchRequest error:&error];
-    
-    for (NSManagedObject *managedObject in items) {
-        [self.context deleteObject:managedObject];
-//        NSLog(@"%@ object deleted", entityDescription);
-    }
-    if (![self.context save:&error]) {
-        NSLog(@"Error with deleting base %@", error);
-    }
-}
-
-*/
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

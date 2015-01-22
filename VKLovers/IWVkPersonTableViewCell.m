@@ -11,6 +11,12 @@
 #import "IWVkManager.h"
 #import "IWWebApiManager.h"
 
+@interface IWVkPersonTableViewCell()
+
+@property (nonatomic, strong) UIImage *photo;
+
+@end
+
 @implementation IWVkPersonTableViewCell
 
 - (void)awakeFromNib {
@@ -80,6 +86,7 @@
 }
 
 - (void)prepareForReuse {
+    self.avatar.image = nil;
     self.choice.previousSelectedIndex = self.choice.selectedSegmentIndex;
     self.choice.selectedSegmentIndex = -1;
 }
