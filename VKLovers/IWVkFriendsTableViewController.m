@@ -20,6 +20,8 @@
 #define k_NotificationName_LoadPhoto @"k_NotificationName_LoadPhoto"
 #define k_Entity_Name_Friend @"Friend"
 
+#define k_Segue_Login @"LOGIN"
+
 @interface IWVkFriendsTableViewController ()
 
 @property (nonatomic, strong) NSMutableArray *friends;
@@ -59,6 +61,12 @@
      addObserver:self
      selector:@selector(handleLoadPhoto:)
      name:k_NotificationName_LoadPhoto object:nil];
+    
+    if (![[IWVkManager sharedManager] validVKSession]) {
+        [self performSegueWithIdentifier:k_Segue_Login sender:nil];
+    } else {
+        [self loadFriendList];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -68,8 +76,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.allowsSelection = NO;
-    
-    [self loadFriendList];
 }
 
 - (void)handlerFriends:(NSNotification *)jsonData {

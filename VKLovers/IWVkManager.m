@@ -101,7 +101,8 @@
  */
 - (void)vkSdkShouldPresentViewController:(UIViewController *)controller {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [delegate.window.rootViewController presentViewController:controller animated:YES completion:nil];
+    UINavigationController *main = ((UINavigationController *)delegate.window.rootViewController).viewControllers[0];
+    [main.presentedViewController presentViewController:controller animated:YES completion:nil];
 }
 
 /**
@@ -121,14 +122,11 @@
         [[NSUserDefaults standardUserDefaults] setObject:vkId forKey:@"CurrentUserVkID"];
         
         IWUser *currentUser = [IWUser userWithVkId:vkId mobile:mobile email:email];
-        NSLog(@"%@", currentUser);
         [[IWWebApiManager sharedManager] postUser:currentUser];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            // The better way, I think
-            // но вообще не так все надо делать, не такая иерархия контроллеров. Спроси как лучше потом
-            UINavigationController *vc = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:kMainViewController];
-            delegate.window.rootViewController = vc;
+            UINavigationController *main = ((UINavigationController *)delegate.window.rootViewController).viewControllers[0];
+            [main.presentedViewController.presentedViewController dismissViewControllerAnimated:NO completion:nil];
         });
         
     } errorBlock:^(NSError *error) {

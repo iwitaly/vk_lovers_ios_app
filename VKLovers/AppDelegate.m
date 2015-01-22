@@ -30,10 +30,10 @@
 //    [[IWWebApiManager sharedManager] getWhoConfessionListForUser:vitaly];
 //    [[IWWebApiManager sharedManager] getConfessionFromUser:vitaly toUser:tumanov];
     
-    IWVkManager *vkManager = [IWVkManager sharedManager];
-    BOOL validVKSession = [vkManager validVKSession];
-    NSString *controllerToOpen = validVKSession ? kMainViewController : kLoginViewController;
-    self.window.rootViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:controllerToOpen];
+//    IWVkManager *vkManager = [IWVkManager sharedManager];
+//    BOOL validVKSession = [vkManager validVKSession];
+//    NSString *controllerToOpen = validVKSession ? kMainViewController : kLoginViewController;
+//    self.window.rootViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:controllerToOpen];
     
     return YES;
 }
