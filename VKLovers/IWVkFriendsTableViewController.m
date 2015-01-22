@@ -30,6 +30,8 @@
 
 @implementation IWVkFriendsTableViewController
 
+#pragma mark Controller lifecycle
+
 - (void)viewDidAppear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter]
      addObserver:self
@@ -49,6 +51,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    ////
+    UISearchBar *search = [[UISearchBar alloc] initWithFrame:self.navigationItem.titleView.frame];
+    self.navigationItem.titleView = search;
+    ////
+    
     self.tableView.allowsSelection = NO;
 }
 
@@ -68,27 +76,7 @@
     }
     
     self.friends = newArray;
-    
-#warning Test send all users
-//    [self sendConfessionsToAllUsers];
-    
     [self.tableView reloadData];
-}
-
-- (void)sendConfessionsToAllUsers {
-    NSMutableArray *confs = [[NSMutableArray alloc] init];
-    for (NSDictionary *dics in self.friends) {
-        NSString *whoVkId = [NSString stringWithFormat:@"%@", [IWVkManager sharedManager].currentUserVkId];
-        NSString *toWhoVkId = [NSString stringWithFormat:@"%@", dics[@"id"]];
-//        IWConfession *conf = [IWConfession confessionWithWhoVkId:whoVkId
-//                                                       toWhoVkId:toWhoVkId type:ConfessionTypeDate];
-        NSDictionary *params = @{@"who_vk_id" : whoVkId,
-                                 @"to_who_vk_id" : toWhoVkId,
-                                 @"type" : @(ConfessionTypeDate)};
-        [confs addObject:params];
-    }
-    
-    [[IWWebApiManager sharedManager] postArrayOfConfessions:confs];
 }
 
 //got notifications from server
@@ -104,7 +92,7 @@
             self.confessions[i] = newConfession;
         }
     } else {
-        self.confessions = [NSMutableArray arrayWithArray:@[]];
+        self.confessions = [[NSMutableArray alloc] init];
     }
 }
 
@@ -129,6 +117,45 @@
     }];
 }
 
+
+#pragma mark Actions
+
+- (IBAction)sendConfessionsToAllUsers:(IWSegmentControl *)sender {
+    NSMutableArray *confs = [[NSMutableArray alloc] init];
+    int selectedIndex = sender.selectedSegmentIndex;
+    
+    self.confessions = [[NSMutableArray alloc] init];
+    
+    if (selectedIndex == IndexTypeNothing) {
+        [[IWWebApiManager sharedManager] removeConfessions:self.confessions];
+    } else {
+        for (NSDictionary *dics in self.friends) {
+            NSString *whoVkId = [NSString stringWithFormat:@"%@", [IWVkManager sharedManager].currentUserVkId];
+            NSString *toWhoVkId = [NSString stringWithFormat:@"%@", dics[@"id"]];
+            IWConfession *newConfession = [IWConfession confessionWithWhoVkId:whoVkId
+                                                                    toWhoVkId:toWhoVkId
+                                                                         type:selectedIndex];
+            NSDictionary *params = @{@"who_vk_id" : whoVkId,
+                                     @"to_who_vk_id" : toWhoVkId,
+                                     @"type" : @(selectedIndex)};
+            [confs addObject:params];
+            [self.confessions addObject:newConfession];
+        }
+        [[IWWebApiManager sharedManager] postArrayOfConfessions:confs];
+    }
+    [self.tableView reloadData];
+}
+
+- (IBAction)shareVk {
+    VKShareDialogController * shareDialog = [VKShareDialogController new]; //1
+    shareDialog.text = @"This post created using #vksdk #ios"; //2
+    shareDialog.shareLink = [[VKShareLink alloc] initWithTitle:@"Super puper link, but nobody knows" link:[NSURL URLWithString:@"https://vk.com/dev/ios_sdk"]]; //4
+    [shareDialog setCompletionHandler:^(VKShareDialogControllerResult result) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }]; //5
+    [self presentViewController:shareDialog animated:YES completion:nil]; //6
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -145,7 +172,7 @@
     IWVkPersonTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"VK_FRIEND" forIndexPath:indexPath];
     NSUInteger number = indexPath.row;
     
-//    [cell.choice removeTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
+    [cell.choice removeTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
     [cell.choice addTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
     
     cell.name.text = [self.friends[number][@"first_name"] stringByAppendingFormat:@" %@",self.friends[number][@"last_name"]];

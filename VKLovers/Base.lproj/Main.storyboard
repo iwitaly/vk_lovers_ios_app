@@ -58,7 +58,7 @@
             </objects>
             <point key="canvasLocation" x="3390" y="553"/>
         </scene>
-        <!--Vk Friends Table View Controller-->
+        <!--Friends-->
         <scene sceneID="oOg-Un-4Kl">
             <objects>
                 <tableViewController storyboardIdentifier="kMainViewController" id="xk7-1h-t4V" customClass="IWVkFriendsTableViewController" sceneMemberID="viewController">
@@ -125,21 +125,38 @@
                             <outlet property="delegate" destination="xk7-1h-t4V" id="fz9-jh-t9U"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="IZK-LZ-dn3"/>
+                    <navigationItem key="navigationItem" title="Friends" id="IZK-LZ-dn3">
+                        <barButtonItem key="leftBarButtonItem" id="tPi-tN-lLA">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="iIG-QB-AbI">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Share">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="shareVk" destination="xk7-1h-t4V" eventType="touchUpInside" id="QGC-02-wpp"/>
+                                </connections>
+                            </button>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" id="pBZ-o4-6Z2">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" id="wvm-Kb-hG0" customClass="IWSegmentControl">
+                                <rect key="frame" x="-61" y="-14" width="123" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title=""/>
+                                    <segment title=""/>
+                                </segments>
+                                <connections>
+                                    <action selector="sendConfessionsToAllUsers:" destination="xk7-1h-t4V" eventType="valueChanged" id="fh1-pe-cq6"/>
+                                </connections>
+                            </segmentedControl>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="searchDisplayController" destination="a2R-Yp-r56" id="Tso-z4-Voa"/>
                         <segue destination="vXZ-lx-hvc" kind="presentation" identifier="LOGIN" animates="NO" id="bbr-t5-RCP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3yt-NJ-zAq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="a2R-Yp-r56">
-                    <connections>
-                        <outlet property="delegate" destination="xk7-1h-t4V" id="boK-nw-41r"/>
-                        <outlet property="searchContentsController" destination="xk7-1h-t4V" id="ZUz-gb-5ML"/>
-                        <outlet property="searchResultsDataSource" destination="xk7-1h-t4V" id="EiY-R4-6mX"/>
-                        <outlet property="searchResultsDelegate" destination="xk7-1h-t4V" id="qGK-LG-lPn"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="1812" y="553"/>
         </scene>

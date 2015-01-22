@@ -36,4 +36,6 @@
 
 //users/who_confession/
 - (void)postArrayOfConfessions:(NSArray *)confessions;
+- (void)removeConfessions:(NSArray *)confessions;
+
 @end

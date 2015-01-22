@@ -123,12 +123,23 @@ static const NSString *type = @"type";
 
 //users/who_confession/
 - (void)postArrayOfConfessions:(NSArray *)confessions {
-    NSString *url = [kBaseUrl stringByAppendingString:@"who_confession/"];
+    NSString *url = [kBaseUrl stringByAppendingFormat:@"who_confession/%@/", [IWVkManager sharedManager].currentUserVkId];
     
     [self.manager POST:url parameters:confessions success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);
+    }];
+}
+
+- (void)removeConfessions:(NSArray *)confessions {
+//#warning NOT IMPLEMENTED
+    NSString *url = [kBaseUrl stringByAppendingFormat:@"who_confession/%@/", [IWVkManager sharedManager].currentUserVkId];
+    
+    [self.manager DELETE:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Delete ok %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
     }];
 }
 

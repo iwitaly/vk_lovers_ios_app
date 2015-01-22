@@ -58,7 +58,7 @@
 }
 
 - (void)login {
-    [VKSdk authorize:@[VK_PER_EMAIL, VK_PER_PAGES] revokeAccess:YES];
+    [VKSdk authorize:@[VK_PER_EMAIL, VK_PER_PAGES, VK_PER_WALL] revokeAccess:YES];
 }
 
 - (BOOL)validVKSession {
