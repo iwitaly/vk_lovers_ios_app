@@ -227,7 +227,7 @@
         dispatch_queue_t queue = dispatch_queue_create(s, 0);
         
         dispatch_async(queue, ^{
-            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.friends[number][@"photo_50"]]];
+            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:data[number][@"photo_50"]]];
             UIImage *img = [UIImage imageWithData:photo];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([tableView indexPathForCell:cell].row == number) {
@@ -267,4 +267,11 @@
     [tableView registerClass:[IWVkPersonTableViewCell class] forCellReuseIdentifier:k_Reusable_Cell_Identifier];
 }
 
+- (void) searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+    
+}
+
+- (void) searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
+    
+}
 @end
