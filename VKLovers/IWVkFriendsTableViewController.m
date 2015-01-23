@@ -63,22 +63,23 @@
 }
 
 - (void)addSearchController {
-    searchBar = [[UISearchBar alloc] initWithFrame:self.navigationItem.titleView.frame];
-    self.navigationItem.titleView = searchBar;
-    searchBar.delegate = self;
-    
-    searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar
-                                                                                    contentsController:self];
-    searchDisplayController.delegate = self;
-    searchDisplayController.searchResultsDataSource = self;
-    searchDisplayController.searchResultsDelegate = self;
-//    [self.searchDisplayController.searchResultsTableView registerClass:[IWVkPersonTableViewCell class] forCellReuseIdentifier:@"VK_FRIEND"];
-    searchDisplayController.displaysSearchBarInNavigationBar = YES;
+//    searchBar = [[UISearchBar alloc] initWithFrame:self.navigationItem.titleView.frame];
+//    self.navigationItem.titleView = searchBar;
+//    searchBar.delegate = self;
+//    
+//    searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar
+//                                                                                    contentsController:self];
+//    searchDisplayController.delegate = self;
+//    searchDisplayController.searchResultsDataSource = self;
+//    searchDisplayController.searchResultsDelegate = self;
+////    [self.searchDisplayController.searchResultsTableView registerClass:[IWVkPersonTableViewCell class] forCellReuseIdentifier:@"VK_FRIEND"];
+//    searchDisplayController.displaysSearchBarInNavigationBar = YES;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self addSearchController];
+    self.searchDisplayController.searchResultsTableView.rowHeight = self.tableView.rowHeight;
+//    [self addSearchController];
     self.tableView.allowsSelection = NO;
 }
 
@@ -196,7 +197,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    IWVkPersonTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:k_Reusable_Cell_Identifier forIndexPath:indexPath   ];
+    IWVkPersonTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:k_Reusable_Cell_Identifier];
 
     if (tableView == self.tableView) {
         [self updateCell:cell forCellAtIndexPath:indexPath withData:self.friends forTableView:tableView];
@@ -272,6 +273,6 @@
 }
 
 - (void) searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
-    
+    [self.tableView reloadData];
 }
 @end
