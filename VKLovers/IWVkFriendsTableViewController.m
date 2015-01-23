@@ -22,13 +22,24 @@
 #define k_Segue_Login @"LOGIN"
 
 @interface IWVkFriendsTableViewController ()
-
+{
+    UISearchBar *searchBar;
+    UISearchDisplayController *searchDisplayController;
+}
 @property (nonatomic, strong) NSMutableArray *friends;
+@property (nonatomic, strong) NSMutableArray *filteredFriends;
 @property (nonatomic, strong) NSMutableArray *confessions;
 
 @end
 
 @implementation IWVkFriendsTableViewController
+
+- (NSMutableArray *)filteredFriends {
+    if (!_filteredFriends) {
+        _filteredFriends = [[NSMutableArray alloc] init];
+    }
+    return _filteredFriends;
+}
 
 #pragma mark Controller lifecycle
 
@@ -49,16 +60,24 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)addSearchController {
+    searchBar = [[UISearchBar alloc] initWithFrame:self.navigationItem.titleView.frame];
+    searchBar.delegate = self;
+    self.navigationItem.titleView = searchBar;
+    searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar
+                                                                                    contentsController:self];
+    searchDisplayController.delegate = self;
+    searchDisplayController.searchResultsDataSource = self;
+    searchDisplayController.searchResultsDelegate = self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    ////
-    UISearchBar *search = [[UISearchBar alloc] initWithFrame:self.navigationItem.titleView.frame];
-    self.navigationItem.titleView = search;
-    ////
-    
+    [self addSearchController];
     self.tableView.allowsSelection = NO;
 }
+
+#pragma mark Loading
 
 - (void)filterFriendsBySex:(NSNumber *)sex {
     NSMutableArray *newArray = [[NSMutableArray alloc] init];
@@ -68,7 +87,10 @@
     if (sexToShow.integerValue) {
         for (id friend in self.friends) {
             if ([friend[@"sex"] isEqualToNumber:sexToShow]) {
-                [newArray addObject:[NSMutableDictionary dictionaryWithDictionary:friend]];
+                //add new field name to all friends
+                NSMutableDictionary *mutableFriend = [friend mutableCopy];
+                mutableFriend[@"name"] = [friend[@"first_name"] stringByAppendingFormat:@" %@",friend[@"last_name"]];
+                [newArray addObject:mutableFriend];
             }
         }
     } else {
@@ -175,7 +197,7 @@
     [cell.choice removeTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
     [cell.choice addTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
     
-    cell.name.text = [self.friends[number][@"first_name"] stringByAppendingFormat:@" %@",self.friends[number][@"last_name"]];
+    cell.name.text = self.friends[number][@"name"];
     cell.usersInfo = self.friends[number];
     cell.confessions = self.confessions;
     
@@ -203,5 +225,28 @@
     
     return cell;
 }
+
+#pragma mark - Content Filtering
+
+- (void)filterFriendsForString:(NSString *)searchString {
+    [self.filteredFriends removeAllObjects];
+    for (id obj in self.friends) {
+        if ([obj isKindOfClass:[NSDictionary class]]) {
+            NSDictionary *friend = obj;
+            NSString *name = friend[@"name"];
+            if ([name rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                [self.filteredFriends addObject:friend];
+            }
+        }
+    }
+}
+
+#pragma mark - UISearchDisplayController Delegate Methods
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+    [self filterFriendsForString:searchString];
+    return YES;
+}
+
 
 @end
