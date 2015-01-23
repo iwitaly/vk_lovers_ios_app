@@ -62,13 +62,16 @@
 
 - (void)addSearchController {
     searchBar = [[UISearchBar alloc] initWithFrame:self.navigationItem.titleView.frame];
-    searchBar.delegate = self;
     self.navigationItem.titleView = searchBar;
+    searchBar.delegate = self;
+    
     searchDisplayController = [[UISearchDisplayController alloc] initWithSearchBar:searchBar
                                                                                     contentsController:self];
     searchDisplayController.delegate = self;
     searchDisplayController.searchResultsDataSource = self;
     searchDisplayController.searchResultsDelegate = self;
+    [self.searchDisplayController.searchResultsTableView registerClass:[IWVkPersonTableViewCell class] forCellReuseIdentifier:@"VK_FRIEND"];
+//    searchDisplayController.displaysSearchBarInNavigationBar = YES;
 }
 
 - (void)viewDidLoad {
@@ -187,11 +190,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return self.friends.count;
+    return (tableView == self.tableView) ? self.friends.count : self.filteredFriends.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    IWVkPersonTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"VK_FRIEND" forIndexPath:indexPath];
+    IWVkPersonTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"VK_FRIEND"];
+
+    if (tableView == self.tableView) {
+        [self updateCell:cell forCellAtIndexPath:indexPath withData:self.friends forTableView:tableView];
+    } else {
+        //filtered content
+        [self updateCell:cell forCellAtIndexPath:indexPath withData:self.filteredFriends forTableView:tableView];
+    }
+    
+    return cell;
+}
+
+- (void)updateCell:(IWVkPersonTableViewCell *)cell forCellAtIndexPath:(NSIndexPath *)indexPath withData:(NSArray *)data forTableView:(UITableView *)tableView {
     NSUInteger number = indexPath.row;
     
     [cell.choice removeTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
@@ -208,7 +223,7 @@
     } else {
         char const *s = [identifier  UTF8String];
         dispatch_queue_t queue = dispatch_queue_create(s, 0);
-
+        
         dispatch_async(queue, ^{
             NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:self.friends[number][@"photo_50"]]];
             UIImage *img = [UIImage imageWithData:photo];
@@ -222,8 +237,6 @@
     }
     
     [cell setupSegmentControlUsingConfessions:self.confessions];
-    
-    return cell;
 }
 
 #pragma mark - Content Filtering
