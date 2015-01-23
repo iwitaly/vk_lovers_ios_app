@@ -21,6 +21,8 @@
 
 #define k_Segue_Login @"LOGIN"
 
+#define k_Reusable_Cell_Identifier @"VK_FRIEND"
+
 @interface IWVkFriendsTableViewController ()
 {
     UISearchBar *searchBar;
@@ -70,8 +72,8 @@
     searchDisplayController.delegate = self;
     searchDisplayController.searchResultsDataSource = self;
     searchDisplayController.searchResultsDelegate = self;
-    [self.searchDisplayController.searchResultsTableView registerClass:[IWVkPersonTableViewCell class] forCellReuseIdentifier:@"VK_FRIEND"];
-//    searchDisplayController.displaysSearchBarInNavigationBar = YES;
+//    [self.searchDisplayController.searchResultsTableView registerClass:[IWVkPersonTableViewCell class] forCellReuseIdentifier:@"VK_FRIEND"];
+    searchDisplayController.displaysSearchBarInNavigationBar = YES;
 }
 
 - (void)viewDidLoad {
@@ -194,7 +196,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    IWVkPersonTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"VK_FRIEND"];
+    IWVkPersonTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:k_Reusable_Cell_Identifier forIndexPath:indexPath   ];
 
     if (tableView == self.tableView) {
         [self updateCell:cell forCellAtIndexPath:indexPath withData:self.friends forTableView:tableView];
@@ -212,14 +214,14 @@
     [cell.choice removeTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
     [cell.choice addTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
     
-    cell.name.text = self.friends[number][@"name"];
-    cell.usersInfo = self.friends[number];
+    cell.name.text = data[number][@"name"];
+    cell.usersInfo = data[number];
     cell.confessions = self.confessions;
     
     NSString *identifier = [NSString stringWithFormat:@"Cell%d", number];
     
-    if (self.friends[number][@"avatar"]) {
-        cell.avatar.image = self.friends[number][@"avatar"];
+    if (data[number][@"avatar"]) {
+        cell.avatar.image = data[number][@"avatar"];
     } else {
         char const *s = [identifier  UTF8String];
         dispatch_queue_t queue = dispatch_queue_create(s, 0);
@@ -229,8 +231,8 @@
             UIImage *img = [UIImage imageWithData:photo];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([tableView indexPathForCell:cell].row == number) {
-                    self.friends[number][@"avatar"] = img;
-                    cell.avatar.image = self.friends[number][@"avatar"];
+                    data[number][@"avatar"] = img;
+                    cell.avatar.image = data[number][@"avatar"];
                 }
             });
         });
@@ -261,5 +263,8 @@
     return YES;
 }
 
+- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
+    [tableView registerClass:[IWVkPersonTableViewCell class] forCellReuseIdentifier:k_Reusable_Cell_Identifier];
+}
 
 @end
