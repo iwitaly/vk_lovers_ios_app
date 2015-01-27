@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VKLovers/IWVkFriendsTableViewController.m"
-            timestampString = "444049877.316773"
+            timestampString = "444051796.236352"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
+            startingLineNumber = "208"
+            endingLineNumber = "208"
             landmarkName = "-sendConfessionsToAllUsers:"
             landmarkType = "5">
          </BreakpointContent>

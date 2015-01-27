@@ -12,7 +12,6 @@
 #import "AppDelegate.h"
 #import "IWUser.h"
 #import "IWWebApiManager.h"
-#import <malloc/malloc.h>
 
 #define k_Segue_Login @"LOGIN"
 
@@ -51,7 +50,12 @@
      addObserver:self
      selector:@selector(handleDisabling)
      name:k_NotificationName_DisableAllFriendsSegment object:nil];
-
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(liftChosenFriendsUp)
+     name:UIApplicationDidBecomeActiveNotification object:nil];
+    
     if (![[IWVkManager sharedManager] validVKSession]) {
         [self performSegueWithIdentifier:k_Segue_Login sender:nil];
     } else {
@@ -105,7 +109,7 @@
     }
     
     self.friends = newArray;
-    [self.tableView reloadData];
+    [self liftChosenFriendsUp];
 }
 
 //got notifications from server
@@ -149,6 +153,47 @@
 
 #pragma mark Actions
 
+- (void)liftChosenFriendsUp {
+    if (!self.friends || !self.confessions) {
+        return;
+    }
+    [self sortArrayOfFriendsInOrderOfArrayOfConfessions];
+    [self.tableView reloadData];
+}
+
+- (void)sortArrayOfFriendsInOrderOfArrayOfConfessions {
+    NSMutableArray *toWhoVkIds = [[NSMutableArray alloc] init];
+    for (id obj in self.confessions) {
+        IWConfession *conf = nil;
+        if ([obj isKindOfClass:[IWConfession class]]) {
+            conf = (IWConfession *)obj;
+        } else {
+            [NSException raise:@"Wrong object during sorting" format:nil];
+        }
+        
+        [toWhoVkIds addObject:conf.to_who_vk_id];
+    }
+    
+    NSMutableArray *buffArray = [[NSMutableArray alloc] init];
+    
+    for (id obj in self.friends) {
+        NSDictionary *friend = nil;
+        if ([obj isKindOfClass:[NSDictionary class]]) {
+            friend = (NSDictionary *)obj;
+        } else {
+            [NSException raise:@"Wrong object during sorting" format:nil];
+        }
+        
+        if ([toWhoVkIds containsObject:[NSString stringWithFormat:@"%@", friend[@"id"]]]) {
+            [buffArray insertObject:friend atIndex:0];
+        } else {
+            [buffArray addObject:friend];
+        }
+    }
+    self.friends = buffArray;
+}
+
+//disable segment control for choosing all friends
 - (void)handleDisabling {
     self.allFriendsSegment.selectedSegmentIndex = IndexTypeNothing;
 }

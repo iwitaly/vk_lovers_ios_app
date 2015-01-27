@@ -30,4 +30,5 @@
     [self addObject:confession];
 }
 
+
 @end
