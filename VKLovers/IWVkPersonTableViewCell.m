@@ -19,6 +19,10 @@
 
 @implementation IWVkPersonTableViewCell
 
+- (void)awakeFromNib {
+    self.name.adjustsFontSizeToFitWidth = YES;
+}
+
 - (void)chooseFriend:(IWSegmentControl *)segmentControl {
     int selectedIndex = segmentControl.selectedSegmentIndex;
 

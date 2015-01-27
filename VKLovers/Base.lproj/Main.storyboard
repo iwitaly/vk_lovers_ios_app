@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -95,12 +96,6 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ogf-8T-TIx" id="Yec-Xa-bY4">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nhl-kx-g7e">
-                                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                                            <variation key="widthClass=compact" fixedFrame="YES">
-                                                <rect key="frame" x="8" y="25" width="50" height="50"/>
-                                            </variation>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tB4-AB-KQS">
                                             <rect key="frame" x="0.0" y="-21" width="42" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -109,30 +104,97 @@
                                             <variation key="widthClass=compact" fixedFrame="YES">
                                                 <rect key="frame" x="66" y="32" width="113" height="35"/>
                                             </variation>
+                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
+                                                <rect key="frame" x="66" y="33" width="195" height="32.5"/>
+                                            </variation>
                                         </label>
                                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="OiG-Q6-f3m" customClass="IWSegmentControl">
                                             <rect key="frame" x="-61" y="-14" width="123" height="29"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="123" id="qII-UM-Sz6"/>
+                                            </constraints>
                                             <segments>
                                                 <segment title="First"/>
                                                 <segment title="Second"/>
                                             </segments>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="qII-UM-Sz6"/>
+                                                </mask>
+                                            </variation>
                                             <variation key="widthClass=compact" fixedFrame="YES">
                                                 <rect key="frame" x="187" y="36" width="123" height="29"/>
                                             </variation>
+                                            <variation key="heightClass=regular-widthClass=compact">
+                                                <mask key="constraints">
+                                                    <include reference="qII-UM-Sz6"/>
+                                                </mask>
+                                            </variation>
                                         </segmentedControl>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nhl-kx-g7e">
+                                            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="50" id="Cuc-W8-uJp"/>
+                                                <constraint firstAttribute="width" constant="50" id="Umg-Vi-V7Y"/>
+                                            </constraints>
+                                            <variation key="default">
+                                                <mask key="constraints">
+                                                    <exclude reference="Cuc-W8-uJp"/>
+                                                    <exclude reference="Umg-Vi-V7Y"/>
+                                                </mask>
+                                            </variation>
+                                            <variation key="widthClass=compact" fixedFrame="YES">
+                                                <rect key="frame" x="8" y="25" width="50" height="50"/>
+                                            </variation>
+                                            <variation key="heightClass=regular-widthClass=compact">
+                                                <mask key="constraints">
+                                                    <include reference="Cuc-W8-uJp"/>
+                                                    <include reference="Umg-Vi-V7Y"/>
+                                                </mask>
+                                            </variation>
+                                        </imageView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="OiG-Q6-f3m" firstAttribute="trailing" secondItem="Yec-Xa-bY4" secondAttribute="trailingMargin" id="5Nx-aJ-7yb"/>
+                                        <constraint firstItem="tB4-AB-KQS" firstAttribute="leading" secondItem="nhl-kx-g7e" secondAttribute="trailing" constant="8" id="JPW-V9-pY2"/>
+                                        <constraint firstItem="tB4-AB-KQS" firstAttribute="top" secondItem="Yec-Xa-bY4" secondAttribute="top" constant="33" id="NeJ-LV-riN"/>
+                                        <constraint firstItem="nhl-kx-g7e" firstAttribute="top" secondItem="Yec-Xa-bY4" secondAttribute="topMargin" constant="17" id="P22-QB-smc"/>
+                                        <constraint firstItem="OiG-Q6-f3m" firstAttribute="leading" secondItem="tB4-AB-KQS" secondAttribute="trailing" constant="8" id="c0f-PJ-pXF"/>
+                                        <constraint firstItem="nhl-kx-g7e" firstAttribute="leading" secondItem="Yec-Xa-bY4" secondAttribute="leading" constant="8" id="mLj-yd-X3N"/>
+                                        <constraint firstAttribute="centerY" secondItem="OiG-Q6-f3m" secondAttribute="centerY" id="n0E-U0-Bza"/>
+                                    </constraints>
                                     <variation key="default">
                                         <mask key="subviews">
-                                            <exclude reference="nhl-kx-g7e"/>
                                             <exclude reference="tB4-AB-KQS"/>
                                             <exclude reference="OiG-Q6-f3m"/>
+                                            <exclude reference="nhl-kx-g7e"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <exclude reference="P22-QB-smc"/>
+                                            <exclude reference="mLj-yd-X3N"/>
+                                            <exclude reference="JPW-V9-pY2"/>
+                                            <exclude reference="NeJ-LV-riN"/>
+                                            <exclude reference="5Nx-aJ-7yb"/>
+                                            <exclude reference="c0f-PJ-pXF"/>
+                                            <exclude reference="n0E-U0-Bza"/>
                                         </mask>
                                     </variation>
                                     <variation key="widthClass=compact">
                                         <mask key="subviews">
-                                            <include reference="nhl-kx-g7e"/>
                                             <include reference="tB4-AB-KQS"/>
                                             <include reference="OiG-Q6-f3m"/>
+                                            <include reference="nhl-kx-g7e"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="heightClass=regular-widthClass=compact">
+                                        <mask key="constraints">
+                                            <include reference="P22-QB-smc"/>
+                                            <include reference="mLj-yd-X3N"/>
+                                            <include reference="JPW-V9-pY2"/>
+                                            <include reference="NeJ-LV-riN"/>
+                                            <include reference="5Nx-aJ-7yb"/>
+                                            <include reference="c0f-PJ-pXF"/>
+                                            <include reference="n0E-U0-Bza"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>
@@ -192,7 +254,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1812" y="553"/>
+            <point key="canvasLocation" x="1812" y="552.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9HK-bx-Exk">
