@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -41,8 +42,8 @@
                                 <exclude reference="fkc-T4-biG"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="Ruk-6j-LLe"/>
                                 <exclude reference="iY8-J9-Apf"/>
+                                <exclude reference="Ruk-6j-LLe"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -52,8 +53,8 @@
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
                             <mask key="constraints">
-                                <include reference="Ruk-6j-LLe"/>
                                 <include reference="iY8-J9-Apf"/>
+                                <include reference="Ruk-6j-LLe"/>
                             </mask>
                         </variation>
                     </view>
@@ -103,9 +104,6 @@
                                             <nil key="highlightedColor"/>
                                             <variation key="widthClass=compact" fixedFrame="YES">
                                                 <rect key="frame" x="66" y="32" width="113" height="35"/>
-                                            </variation>
-                                            <variation key="heightClass=regular-widthClass=compact" misplaced="YES">
-                                                <rect key="frame" x="66" y="33" width="195" height="32.5"/>
                                             </variation>
                                         </label>
                                         <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="OiG-Q6-f3m" customClass="IWSegmentControl">
@@ -170,13 +168,13 @@
                                             <exclude reference="nhl-kx-g7e"/>
                                         </mask>
                                         <mask key="constraints">
-                                            <exclude reference="P22-QB-smc"/>
-                                            <exclude reference="mLj-yd-X3N"/>
                                             <exclude reference="JPW-V9-pY2"/>
                                             <exclude reference="NeJ-LV-riN"/>
                                             <exclude reference="5Nx-aJ-7yb"/>
                                             <exclude reference="c0f-PJ-pXF"/>
                                             <exclude reference="n0E-U0-Bza"/>
+                                            <exclude reference="P22-QB-smc"/>
+                                            <exclude reference="mLj-yd-X3N"/>
                                         </mask>
                                     </variation>
                                     <variation key="widthClass=compact">
@@ -188,13 +186,13 @@
                                     </variation>
                                     <variation key="heightClass=regular-widthClass=compact">
                                         <mask key="constraints">
-                                            <include reference="P22-QB-smc"/>
-                                            <include reference="mLj-yd-X3N"/>
                                             <include reference="JPW-V9-pY2"/>
                                             <include reference="NeJ-LV-riN"/>
                                             <include reference="5Nx-aJ-7yb"/>
                                             <include reference="c0f-PJ-pXF"/>
                                             <include reference="n0E-U0-Bza"/>
+                                            <include reference="P22-QB-smc"/>
+                                            <include reference="mLj-yd-X3N"/>
                                         </mask>
                                     </variation>
                                 </tableViewCellContentView>

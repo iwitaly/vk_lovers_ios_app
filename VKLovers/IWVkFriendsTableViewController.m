@@ -11,6 +11,7 @@
 #import "IWVkPersonTableViewCell.h"
 #import "IWWebApiManager.h"
 #import "KLCPopup.h"
+#import "IWMatchView.h"
 
 #define k_Segue_Login @"LOGIN"
 
@@ -97,32 +98,13 @@
 }
 
 - (void)testPopUp {
-    UIView* contentView = [[UIView alloc] init];
-    contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    contentView.backgroundColor = [UIColor blueColor];
-    contentView.layer.cornerRadius = 12.0;
-    contentView.frame = CGRectMake(0, 0, 250, 250);
-    contentView.center = self.tableView.center;
+    IWMatchView *contentView = [[NSBundle mainBundle] loadNibNamed:@"IWMatchView" owner:self options:nil][0];
+//    contentView.translatesAutoresizingMaskIntoConstraints = NO;
     
-    UILabel* dismissLabel = [[UILabel alloc] init];
-    dismissLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    dismissLabel.backgroundColor = [UIColor clearColor];
-    dismissLabel.textColor = [UIColor whiteColor];
-    dismissLabel.font = [UIFont boldSystemFontOfSize:72.0];
-    dismissLabel.text = @"Hi.";
-    
-    UIButton* dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    dismissButton.translatesAutoresizingMaskIntoConstraints = NO;
-    dismissButton.contentEdgeInsets = UIEdgeInsetsMake(10, 20, 10, 20);
-    dismissButton.backgroundColor = [UIColor blueColor];
-    [dismissButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [dismissButton setTitleColor:[[dismissButton titleColorForState:UIControlStateNormal] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
-    dismissButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
-    [dismissButton setTitle:@"Bye" forState:UIControlStateNormal];
-    dismissButton.layer.cornerRadius = 6.0;
-    
-    [contentView addSubview:dismissLabel];
-    [contentView addSubview:dismissButton];
+//    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[contentView(==200)]"
+//                                            options: 0
+//                                            metrics:nil
+//                                              views:@{@"contentView" : contentView}]];
     
     KLCPopup *popUp = [KLCPopup popupWithContentView:contentView];
     [popUp show];

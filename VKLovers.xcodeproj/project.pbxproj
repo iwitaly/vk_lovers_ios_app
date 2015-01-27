@@ -25,6 +25,8 @@
 		73D4894F1A6BEAEF00176CD4 /* IWConfession.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D4894E1A6BEAEF00176CD4 /* IWConfession.m */; };
 		73D489561A6BF3B000176CD4 /* IWVkFriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D489551A6BF3B000176CD4 /* IWVkFriendsTableViewController.m */; };
 		73D489591A6BF4A600176CD4 /* IWVkPersonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D489581A6BF4A600176CD4 /* IWVkPersonTableViewCell.m */; };
+		73D4B7151A78055600AF5B91 /* IWMatchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73D4B7141A78055600AF5B91 /* IWMatchView.xib */; };
+		73D4B7181A780DB800AF5B91 /* IWMatchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D4B7171A780DB800AF5B91 /* IWMatchView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +74,9 @@
 		73D489551A6BF3B000176CD4 /* IWVkFriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWVkFriendsTableViewController.m; sourceTree = "<group>"; };
 		73D489571A6BF4A600176CD4 /* IWVkPersonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWVkPersonTableViewCell.h; sourceTree = "<group>"; };
 		73D489581A6BF4A600176CD4 /* IWVkPersonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWVkPersonTableViewCell.m; sourceTree = "<group>"; };
+		73D4B7141A78055600AF5B91 /* IWMatchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IWMatchView.xib; sourceTree = "<group>"; };
+		73D4B7161A780DB800AF5B91 /* IWMatchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWMatchView.h; sourceTree = "<group>"; };
+		73D4B7171A780DB800AF5B91 /* IWMatchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWMatchView.m; sourceTree = "<group>"; };
 		EC71FB911722F546E2A41B78 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -124,10 +129,7 @@
 				73D489241A6BDD1400176CD4 /* IWLoginViewController.m */,
 				73D489541A6BF3B000176CD4 /* IWVkFriendsTableViewController.h */,
 				73D489551A6BF3B000176CD4 /* IWVkFriendsTableViewController.m */,
-				73D489571A6BF4A600176CD4 /* IWVkPersonTableViewCell.h */,
-				73D489581A6BF4A600176CD4 /* IWVkPersonTableViewCell.m */,
-				730004B91A6EA03D0082C1EA /* IWSegmentControl.h */,
-				730004BA1A6EA03D0082C1EA /* IWSegmentControl.m */,
+				73D4B7191A780E6B00AF5B91 /* Views */,
 				73D489501A6BEAF900176CD4 /* Core */,
 				73D489261A6BDD1400176CD4 /* Main.storyboard */,
 				73D489291A6BDD1400176CD4 /* Images.xcassets */,
@@ -180,6 +182,20 @@
 				73D4894E1A6BEAEF00176CD4 /* IWConfession.m */,
 			);
 			name = Core;
+			sourceTree = "<group>";
+		};
+		73D4B7191A780E6B00AF5B91 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				73D489571A6BF4A600176CD4 /* IWVkPersonTableViewCell.h */,
+				73D489581A6BF4A600176CD4 /* IWVkPersonTableViewCell.m */,
+				730004B91A6EA03D0082C1EA /* IWSegmentControl.h */,
+				730004BA1A6EA03D0082C1EA /* IWSegmentControl.m */,
+				73D4B7161A780DB800AF5B91 /* IWMatchView.h */,
+				73D4B7171A780DB800AF5B91 /* IWMatchView.m */,
+				73D4B7141A78055600AF5B91 /* IWMatchView.xib */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		969223ABBD26140081BB8F74 /* Frameworks */ = {
@@ -282,6 +298,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73D4B7151A78055600AF5B91 /* IWMatchView.xib in Resources */,
 				73D489281A6BDD1400176CD4 /* Main.storyboard in Resources */,
 				73D4892D1A6BDD1400176CD4 /* LaunchScreen.xib in Resources */,
 				73D4892A1A6BDD1400176CD4 /* Images.xcassets in Resources */,
@@ -338,6 +355,7 @@
 				73CD36721A6D98930026232F /* IWVkManager.m in Sources */,
 				730004BB1A6EA03D0082C1EA /* IWSegmentControl.m in Sources */,
 				73D489591A6BF4A600176CD4 /* IWVkPersonTableViewCell.m in Sources */,
+				73D4B7181A780DB800AF5B91 /* IWMatchView.m in Sources */,
 				7348B7BB1A716E6100ED4504 /* NSMutableArray+confessionManagment.m in Sources */,
 				73CD36781A6E637E0026232F /* IWWebApiManager.m in Sources */,
 				73D4894F1A6BEAEF00176CD4 /* IWConfession.m in Sources */,

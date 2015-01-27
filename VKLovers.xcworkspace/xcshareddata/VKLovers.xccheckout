@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C3CE7F7D-BE2E-481E-8BD7-8D6BC4E2D6B2</string>
+	<key>IDESourceControlProjectName</key>
+	<string>VKLovers</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>DF380DF3F7ED02736D50161642D931882BEEB583</key>
+		<string>https://github.com/iwitaly/vk_lovers_ios_app.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>VKLovers.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>DF380DF3F7ED02736D50161642D931882BEEB583</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/iwitaly/vk_lovers_ios_app.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>DF380DF3F7ED02736D50161642D931882BEEB583</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>DF380DF3F7ED02736D50161642D931882BEEB583</string>
+			<key>IDESourceControlWCCName</key>
+			<string>VKLovers</string>
+		</dict>
+	</array>
+</dict>
+</plist>
