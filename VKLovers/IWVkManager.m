@@ -113,25 +113,21 @@
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
 //    [delegate.window.rootViewController performSegueWithIdentifier:NEXT_CONTROLLER_SEGUE_ID sender:nil];
     
+    [[NSUserDefaults standardUserDefaults] setObject:newToken.userId forKey:@"CurrentUserVkID"];
     //send basic info to server
     [[[VKApi users] get:@{VK_API_FIELDS : @"contacts"}] executeWithResultBlock:^(VKResponse *response) {
         NSString *mobile = response.json[0][@"mobile_phone"];
         NSString *email = newToken.email == nil ? @"" : newToken.email;
         NSString *vkId = newToken.userId;
         
-        NSLog(@"VK token %@", vkId);
-        
-        [[NSUserDefaults standardUserDefaults] setObject:vkId forKey:@"CurrentUserVkID"];
-        
         IWUser *currentUser = [IWUser userWithVkId:vkId mobile:mobile email:email];
         [[IWWebApiManager sharedManager] postUser:currentUser];
-        
-        UINavigationController *main = ((UINavigationController *)delegate.window.rootViewController).viewControllers[0];
-        [main dismissViewControllerAnimated:YES completion:nil];
- 
     } errorBlock:^(NSError *error) {
         NSLog(@"Getting users unfo error %@", error);
     }];
+    
+    UINavigationController *main = ((UINavigationController *)delegate.window.rootViewController).viewControllers[0];
+    [main dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end
