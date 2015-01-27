@@ -10,4 +10,5 @@
 
 @interface IWVkFriendsTableViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate>
 
+
 @end

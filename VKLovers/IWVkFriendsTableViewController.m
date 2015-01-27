@@ -175,13 +175,13 @@
 }
 
 - (IBAction)shareVk {
-    VKShareDialogController * shareDialog = [VKShareDialogController new]; //1
-    shareDialog.text = @"This post created using #vksdk #ios"; //2
-    shareDialog.shareLink = [[VKShareLink alloc] initWithTitle:@"Super puper link, but nobody knows" link:[NSURL URLWithString:@"https://vk.com/dev/ios_sdk"]]; //4
+    VKShareDialogController * shareDialog = [VKShareDialogController new];
+    shareDialog.text = @"This post created using #vksdk #ios";
+    shareDialog.shareLink = [[VKShareLink alloc] initWithTitle:@"Super puper link, but nobody knows" link:[NSURL URLWithString:@"https://vk.com/dev/ios_sdk"]];
     [shareDialog setCompletionHandler:^(VKShareDialogControllerResult result) {
         [self dismissViewControllerAnimated:YES completion:nil];
-    }]; //5
-    [self presentViewController:shareDialog animated:YES completion:nil]; //6
+    }];
+    [self presentViewController:shareDialog animated:YES completion:nil];
 }
 
 #pragma mark - Table view data source
