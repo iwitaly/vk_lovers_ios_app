@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "IWSegmentControl.h"
 
+#define k_NotificationName_DisableAllFriendsSegment @"k_NotificationName_DisableAllFriendsSegment"
+
 typedef NS_ENUM(NSInteger, IndexType) {
     IndexTypeNothing = -1,
     IndexTypeDate = 0,

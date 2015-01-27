@@ -162,6 +162,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="allFriendsSegment" destination="wvm-Kb-hG0" id="fAY-8R-0EU"/>
                         <outlet property="searchDisplayController" destination="6dL-my-g0h" id="Pqz-y8-xT5"/>
                         <segue destination="vXZ-lx-hvc" kind="presentation" identifier="LOGIN" animates="NO" id="bbr-t5-RCP"/>
                     </connections>

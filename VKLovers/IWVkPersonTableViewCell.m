@@ -14,7 +14,6 @@
 
 @interface IWVkPersonTableViewCell()
 
-@property (nonatomic, strong) UIImage *photo;
 
 @end
 
@@ -34,6 +33,8 @@
                                                             toWhoVkId:toWhoVkId
                                                                  type:selectedIndex];
     NSLog(@"count %@", self.confessions);
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:k_NotificationName_DisableAllFriendsSegment object:nil];
     
     if (selectedIndex == IndexTypeNothing) {
         //delete

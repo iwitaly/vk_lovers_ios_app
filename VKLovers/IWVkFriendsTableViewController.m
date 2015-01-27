@@ -14,11 +14,6 @@
 #import "IWWebApiManager.h"
 #import <malloc/malloc.h>
 
-#define k_NotificationName_UsersLoaded @"k_NotificationName_UsersLoaded"
-#define k_NotificationName_UserInfo @"k_NotificationName_UserInfo"
-#define k_NotificationName_LoadPhoto @"k_NotificationName_LoadPhoto"
-#define k_Entity_Name_Friend @"Friend"
-
 #define k_Segue_Login @"LOGIN"
 
 #define k_Reusable_Cell_Identifier @"VK_FRIEND"
@@ -31,6 +26,7 @@
 @property (nonatomic, strong) NSMutableArray *friends;
 @property (nonatomic, strong) NSMutableArray *filteredFriends;
 @property (nonatomic, strong) NSMutableArray *confessions;
+@property (weak, nonatomic) IBOutlet IWSegmentControl *allFriendsSegment;
 
 @end
 
@@ -51,6 +47,11 @@
      selector:@selector(handleConfessions:)
      name:k_NotificationGotConfessionsFromServer object:nil];
     
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(handleDisabling)
+     name:k_NotificationName_DisableAllFriendsSegment object:nil];
+
     if (![[IWVkManager sharedManager] validVKSession]) {
         [self performSegueWithIdentifier:k_Segue_Login sender:nil];
     } else {
@@ -147,6 +148,10 @@
 
 
 #pragma mark Actions
+
+- (void)handleDisabling {
+    self.allFriendsSegment.selectedSegmentIndex = IndexTypeNothing;
+}
 
 - (IBAction)sendConfessionsToAllUsers:(IWSegmentControl *)sender {
     NSMutableArray *confs = [[NSMutableArray alloc] init];
