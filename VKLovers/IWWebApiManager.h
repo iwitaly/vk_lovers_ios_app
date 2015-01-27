@@ -11,9 +11,18 @@
 #import "IWConfession.h"
 
 #define k_NotificationGotConfessionsFromServer @"kNotificationGotConfessionsFromServer"
+
+@protocol IWWebApiManagerDelegate <NSObject>
+
+- (void)didEndPostConfession:(IWConfession *)confession withResult:(BOOL)is_completed;
+
+@end
+
 @interface IWWebApiManager : NSObject
 
 + (instancetype)sharedManager;
+
+@property (weak) id <IWWebApiManagerDelegate> webManagerDelegate;
 
 //users/
 - (void)postUser:(IWUser *)user;

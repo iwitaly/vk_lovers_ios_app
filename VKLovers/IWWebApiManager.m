@@ -11,13 +11,16 @@
 #import <AFNetworking/AFNetworking.h>
 
 //#define kBaseUrl @"http://vklovers.herokuapp.com/users/"
-#define kBaseUrl @"http://localhost:8000/users/"
+//#define kBaseUrl @"http://localhost:8000/users/"
+#define kBaseUrl @"http://62.109.1.60:8000/users/"
+
 static const NSString *vk_id = @"vk_id";
 static const NSString *mobile = @"mobile";
 static const NSString *email = @"email";
 static const NSString *who_vk_id = @"who_vk_id";
 static const NSString *to_who_vk_id = @"to_who_vk_id";
 static const NSString *type = @"type";
+static const NSString *is_completed = @"is_completed";
 
 @interface IWWebApiManager()
 
@@ -78,6 +81,8 @@ static const NSString *type = @"type";
 }
 
 - (void)getWhoConfessionListForCurrentUser {
+    NSLog(@"%@", [IWVkManager sharedManager].currentUserVkId);
+    
     IWUser *currentUser = [IWUser userWithVkId:[IWVkManager sharedManager].currentUserVkId mobile:nil email:nil];
     [self getWhoConfessionListForUser:currentUser];
 }
@@ -89,6 +94,14 @@ static const NSString *type = @"type";
                              type : @(confession.type)};
     
     [self.manager POST:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *whoVKid = [NSString stringWithFormat:@"%@", responseObject[who_vk_id]];
+        NSString *toWhoVKid = [NSString stringWithFormat:@"%@", responseObject[to_who_vk_id]];
+        IWConfession *respondConfession = [IWConfession confessionWithWhoVkId:whoVKid
+                                                                toWhoVkId:toWhoVKid
+                                                                     type:(ConfessionType)[responseObject[type] integerValue]];
+
+        [self.webManagerDelegate didEndPostConfession:respondConfession withResult:[responseObject[@"is_completed"] boolValue]];
+        
         NSLog(@"%@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);

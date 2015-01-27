@@ -49,6 +49,7 @@
         [[IWWebApiManager sharedManager] postConfession:newConfession];
         [self.confessions changeConfessionTypeWithWhoVkId:whoVKid toWhoVkId:toWhoVkId andType:selectedIndex];
     }
+    
     NSLog(@"count %@", self.confessions);
 }
 

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface IWMatchView : UIView
+@property (weak, nonatomic) IBOutlet UILabel *matchLabel;
 
 @end

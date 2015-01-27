@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "IWWebApiManager.h"
 
-@interface IWVkFriendsTableViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate>
+@interface IWVkFriendsTableViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate, IWWebApiManagerDelegate>
 
 
 @end

@@ -9,7 +9,6 @@
 #import "IWVkFriendsTableViewController.h"
 #import "IWVkManager.h"
 #import "IWVkPersonTableViewCell.h"
-#import "IWWebApiManager.h"
 #import "KLCPopup.h"
 #import "IWMatchView.h"
 
@@ -66,7 +65,6 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
     self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
-
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -97,23 +95,11 @@
     [sender endRefreshing];
 }
 
-- (void)testPopUp {
-    IWMatchView *contentView = [[NSBundle mainBundle] loadNibNamed:@"IWMatchView" owner:self options:nil][0];
-//    contentView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-//    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[contentView(==200)]"
-//                                            options: 0
-//                                            metrics:nil
-//                                              views:@{@"contentView" : contentView}]];
-    
-    KLCPopup *popUp = [KLCPopup popupWithContentView:contentView];
-    [popUp show];
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.searchDisplayController.searchResultsTableView.rowHeight = self.tableView.rowHeight;
     [self addRefreshController];
+    [IWWebApiManager sharedManager].webManagerDelegate = self;
 //    [self addSearchController];
     self.tableView.allowsSelection = NO;
 }
@@ -255,14 +241,13 @@
 }
 
 - (IBAction)shareVk {
-    [self testPopUp];
-//    VKShareDialogController * shareDialog = [VKShareDialogController new];
-//    shareDialog.text = @"This post created using #vksdk #ios";
-//    shareDialog.shareLink = [[VKShareLink alloc] initWithTitle:@"Super puper link, but nobody knows" link:[NSURL URLWithString:@"https://vk.com/dev/ios_sdk"]];
-//    [shareDialog setCompletionHandler:^(VKShareDialogControllerResult result) {
-//        [self dismissViewControllerAnimated:YES completion:nil];
-//    }];
-//    [self presentViewController:shareDialog animated:YES completion:nil];
+    VKShareDialogController * shareDialog = [VKShareDialogController new];
+    shareDialog.text = @"This post created using #vksdk #ios";
+    shareDialog.shareLink = [[VKShareLink alloc] initWithTitle:@"Super puper link, but nobody knows" link:[NSURL URLWithString:@"https://vk.com/dev/ios_sdk"]];
+    [shareDialog setCompletionHandler:^(VKShareDialogControllerResult result) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [self presentViewController:shareDialog animated:YES completion:nil];
 }
 
 #pragma mark - Table view data source
@@ -356,4 +341,26 @@
 - (void) searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
     [self.tableView reloadData];
 }
+
+#pragma mark - IWWebApiManagerDelegate methods
+
+- (void)showMatchViewWithConfession:(IWConfession *)confession {
+    IWMatchView *contentView = [[NSBundle mainBundle] loadNibNamed:@"IWMatchView" owner:self options:nil][0];
+//    contentView.translatesAutoresizingMaskIntoConstraints = NO;
+//
+//    [contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"|[contentView(==200)]"
+//                                            options: 0
+//                                            metrics:nil
+//                                              views:@{@"contentView" : contentView}]];
+    contentView.matchLabel.text = [NSString stringWithFormat:@"You match with user %@", confession.to_who_vk_id];
+    KLCPopup *popUp = [KLCPopup popupWithContentView:contentView];
+    [popUp show];
+}
+
+- (void)didEndPostConfession:(IWConfession *)confession withResult:(BOOL)is_completed {
+    if (is_completed) {
+        [self showMatchViewWithConfession:confession];
+    }
+}
+
 @end

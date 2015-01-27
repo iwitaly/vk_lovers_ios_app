@@ -12,7 +12,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This is the match view" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MKh-jP-PGy">
-                    <rect key="frame" x="65" y="89" width="170" height="21"/>
+                    <rect key="frame" x="65" y="87" width="170" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
@@ -20,6 +20,9 @@
             </subviews>
             <color key="backgroundColor" red="0.62602406614189476" green="1" blue="0.3776160619353971" alpha="1" colorSpace="calibratedRGB"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="matchLabel" destination="MKh-jP-PGy" id="n2r-xs-P1v"/>
+            </connections>
             <point key="canvasLocation" x="628" y="488"/>
         </view>
     </objects>
