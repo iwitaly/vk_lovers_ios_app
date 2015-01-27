@@ -63,6 +63,12 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
+
+}
+
 - (void)viewDidDisappear:(BOOL)animated {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -81,9 +87,20 @@
 //    searchDisplayController.displaysSearchBarInNavigationBar = YES;
 }
 
+- (void)addRefreshController {
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void)refresh:(UIRefreshControl *)sender {
+    [self loadFriendList];
+    [sender endRefreshing];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.searchDisplayController.searchResultsTableView.rowHeight = self.tableView.rowHeight;
+    [self addRefreshController];
 //    [self addSearchController];
     self.tableView.allowsSelection = NO;
 }

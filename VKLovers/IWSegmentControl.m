@@ -10,6 +10,10 @@
 
 @implementation IWSegmentControl
 
+- (void)awakeFromNib {
+    self.tintColor = [UIColor blackColor];
+}
+
 + (BOOL)isIOS7 {
     static BOOL isIOS7 = NO;
     static dispatch_once_t onceToken;
