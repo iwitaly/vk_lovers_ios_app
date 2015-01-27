@@ -20,14 +20,20 @@ PODS:
   - AFNetworking/UIKit (2.5.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - KLCPopup (1.0)
+  - MBProgressHUD (0.9)
   - VK-ios-sdk (1.0.9.3)
 
 DEPENDENCIES:
   - AFNetworking
+  - KLCPopup
+  - MBProgressHUD
   - VK-ios-sdk
 
 SPEC CHECKSUMS:
   AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
+  KLCPopup: 23548d0454ca156b0eb684f791f234b9c2134369
+  MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   VK-ios-sdk: 9e15e985926988c9eeb6a3eb9cdd6e03e2520e88
 
 COCOAPODS: 0.35.0

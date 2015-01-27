@@ -26,12 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VKLovers/IWVkFriendsTableViewController.m"
-            timestampString = "444053676.536241"
+            timestampString = "444066381.491092"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "225"
-            endingLineNumber = "225"
-            landmarkName = "-sendConfessionsToAllUsers:"
+            startingLineNumber = "287"
+            endingLineNumber = "287"
+            landmarkName = "-numberOfSectionsInTableView:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VKLovers/IWVkFriendsTableViewController.m"
-            timestampString = "444053676.536241"
+            timestampString = "444066352.737512"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "-refresh:"
             landmarkType = "5">
          </BreakpointContent>

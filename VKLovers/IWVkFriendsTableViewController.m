@@ -9,9 +9,8 @@
 #import "IWVkFriendsTableViewController.h"
 #import "IWVkManager.h"
 #import "IWVkPersonTableViewCell.h"
-#import "AppDelegate.h"
-#import "IWUser.h"
 #import "IWWebApiManager.h"
+#import "KLCPopup.h"
 
 #define k_Segue_Login @"LOGIN"
 
@@ -95,6 +94,38 @@
 - (void)refresh:(UIRefreshControl *)sender {
     [self loadFriendList];
     [sender endRefreshing];
+}
+
+- (void)testPopUp {
+    UIView* contentView = [[UIView alloc] init];
+    contentView.translatesAutoresizingMaskIntoConstraints = NO;
+    contentView.backgroundColor = [UIColor blueColor];
+    contentView.layer.cornerRadius = 12.0;
+    contentView.frame = CGRectMake(0, 0, 250, 250);
+    contentView.center = self.tableView.center;
+    
+    UILabel* dismissLabel = [[UILabel alloc] init];
+    dismissLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    dismissLabel.backgroundColor = [UIColor clearColor];
+    dismissLabel.textColor = [UIColor whiteColor];
+    dismissLabel.font = [UIFont boldSystemFontOfSize:72.0];
+    dismissLabel.text = @"Hi.";
+    
+    UIButton* dismissButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    dismissButton.translatesAutoresizingMaskIntoConstraints = NO;
+    dismissButton.contentEdgeInsets = UIEdgeInsetsMake(10, 20, 10, 20);
+    dismissButton.backgroundColor = [UIColor blueColor];
+    [dismissButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [dismissButton setTitleColor:[[dismissButton titleColorForState:UIControlStateNormal] colorWithAlphaComponent:0.5] forState:UIControlStateHighlighted];
+    dismissButton.titleLabel.font = [UIFont boldSystemFontOfSize:16.0];
+    [dismissButton setTitle:@"Bye" forState:UIControlStateNormal];
+    dismissButton.layer.cornerRadius = 6.0;
+    
+    [contentView addSubview:dismissLabel];
+    [contentView addSubview:dismissButton];
+    
+    KLCPopup *popUp = [KLCPopup popupWithContentView:contentView];
+    [popUp show];
 }
 
 - (void)viewDidLoad {
@@ -242,13 +273,14 @@
 }
 
 - (IBAction)shareVk {
-    VKShareDialogController * shareDialog = [VKShareDialogController new];
-    shareDialog.text = @"This post created using #vksdk #ios";
-    shareDialog.shareLink = [[VKShareLink alloc] initWithTitle:@"Super puper link, but nobody knows" link:[NSURL URLWithString:@"https://vk.com/dev/ios_sdk"]];
-    [shareDialog setCompletionHandler:^(VKShareDialogControllerResult result) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }];
-    [self presentViewController:shareDialog animated:YES completion:nil];
+    [self testPopUp];
+//    VKShareDialogController * shareDialog = [VKShareDialogController new];
+//    shareDialog.text = @"This post created using #vksdk #ios";
+//    shareDialog.shareLink = [[VKShareLink alloc] initWithTitle:@"Super puper link, but nobody knows" link:[NSURL URLWithString:@"https://vk.com/dev/ios_sdk"]];
+//    [shareDialog setCompletionHandler:^(VKShareDialogControllerResult result) {
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//    }];
+//    [self presentViewController:shareDialog animated:YES completion:nil];
 }
 
 #pragma mark - Table view data source

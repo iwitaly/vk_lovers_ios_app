@@ -48,6 +48,18 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 5
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 0
 
+// KLCPopup
+#define COCOAPODS_POD_AVAILABLE_KLCPopup
+#define COCOAPODS_VERSION_MAJOR_KLCPopup 1
+#define COCOAPODS_VERSION_MINOR_KLCPopup 0
+#define COCOAPODS_VERSION_PATCH_KLCPopup 0
+
+// MBProgressHUD
+#define COCOAPODS_POD_AVAILABLE_MBProgressHUD
+#define COCOAPODS_VERSION_MAJOR_MBProgressHUD 0
+#define COCOAPODS_VERSION_MINOR_MBProgressHUD 9
+#define COCOAPODS_VERSION_PATCH_MBProgressHUD 0
+
 // VK-ios-sdk
 #define COCOAPODS_POD_AVAILABLE_VK_ios_sdk
 // This library does not follow semantic-versioning,

@@ -9,6 +9,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Pods-KLCPopup.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-MBProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-VK-ios-sdk.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,17 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>18539189ACDE097B045B2AD2</key>
+		<key>0D4BF467ADF19E080EC07E5A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7B0CAC7BC97AD104162064E7</key>
+		<key>4DA325A9C1B7864F12C7A447</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C5DF6BB395ED4004AFB2DB21</key>
+		<key>B696EF09B6C89304D74989D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DAA744221874674EAA2C397D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F55EA642659D7AB2963E4AEB</key>
 		<dict>
 			<key>primary</key>
 			<true/>

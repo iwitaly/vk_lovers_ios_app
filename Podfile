@@ -3,3 +3,5 @@ platform :ios, '7.0'
 
 pod 'VK-ios-sdk'
 pod 'AFNetworking'
+pod 'MBProgressHUD'
+pod 'KLCPopup'

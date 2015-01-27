@@ -31,14 +31,28 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="0.58174321893696535" blue="0.58213587099797226" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="fkc-T4-biG" secondAttribute="centerX" constant="-0.5" id="Ruk-6j-LLe"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="fkc-T4-biG" secondAttribute="bottom" constant="178" id="iY8-J9-Apf"/>
+                        </constraints>
                         <variation key="default">
                             <mask key="subviews">
                                 <exclude reference="fkc-T4-biG"/>
+                            </mask>
+                            <mask key="constraints">
+                                <exclude reference="Ruk-6j-LLe"/>
+                                <exclude reference="iY8-J9-Apf"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
                             <mask key="subviews">
                                 <include reference="fkc-T4-biG"/>
+                            </mask>
+                        </variation>
+                        <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="constraints">
+                                <include reference="Ruk-6j-LLe"/>
+                                <include reference="iY8-J9-Apf"/>
                             </mask>
                         </variation>
                     </view>
