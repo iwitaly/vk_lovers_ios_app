@@ -33,7 +33,7 @@
 
 - (NSMutableArray *)filteredFriends {
     if (!_filteredFriends) {
-        _filteredFriends = [[NSMutableArray alloc] init];
+        _filteredFriends = [NSMutableArray new];
     }
     return _filteredFriends;
 }
@@ -42,28 +42,13 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(handleConfessions:)
-     name:k_NotificationGotConfessionsFromServer object:nil];
-    
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(handleDisabling)
-     name:k_NotificationName_DisableAllFriendsSegment object:nil];
-    
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(liftChosenFriendsUp)
-     name:UIApplicationDidBecomeActiveNotification object:nil];
-    
     if (![[IWVkManager sharedManager] validVKSession]) {
         UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
                                                                  bundle:nil];
         IWLoginViewController *loginVc = (IWLoginViewController *)[mainStoryboard
-                                                                    instantiateViewControllerWithIdentifier:kLoginViewController];
+                                                                   instantiateViewControllerWithIdentifier:kLoginViewController];
         [self presentViewController:loginVc animated:NO completion:nil];
+        
     } else {
         [self loadFriendList];
     }
@@ -98,8 +83,26 @@
     [sender endRefreshing];
 }
 
+- (void)addNotificationsObservers {
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(handleConfessions:)
+     name:k_NotificationGotConfessionsFromServer object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(handleDisabling)
+     name:k_NotificationName_DisableAllFriendsSegment object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(liftChosenFriendsUp)
+     name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addNotificationsObservers];
     self.searchDisplayController.searchResultsTableView.rowHeight = self.tableView.rowHeight;
     [self addRefreshControl];
     [IWWebApiManager sharedManager].webManagerDelegate = self;
