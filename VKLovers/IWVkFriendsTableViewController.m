@@ -11,8 +11,9 @@
 #import "IWVkPersonTableViewCell.h"
 #import "KLCPopup.h"
 #import "IWMatchView.h"
+#import "IWLoginViewController.h"
 
-#define k_Segue_Login @"LOGIN"
+#define kLoginViewController @"kLoginViewController"
 
 #define k_Reusable_Cell_Identifier @"VK_FRIEND"
 
@@ -58,7 +59,11 @@
      name:UIApplicationDidBecomeActiveNotification object:nil];
     
     if (![[IWVkManager sharedManager] validVKSession]) {
-        [self performSegueWithIdentifier:k_Segue_Login sender:nil];
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                                 bundle:nil];
+        IWLoginViewController *loginVc = (IWLoginViewController *)[mainStoryboard
+                                                                    instantiateViewControllerWithIdentifier:kLoginViewController];
+        [self presentViewController:loginVc animated:NO completion:nil];
     } else {
         [self loadFriendList];
     }
@@ -110,7 +115,7 @@
     sexToShow = !sex ? @0 : sexToShow;
     
     if (sexToShow.integerValue) {
-        for (id friend in self.friends) {
+        for (NSDictionary *friend in self.friends) {
             if ([friend[@"sex"] isEqualToNumber:sexToShow]) {
                 //add new field name to all friends
                 NSMutableDictionary *mutableFriend = [friend mutableCopy];
@@ -292,7 +297,7 @@
         dispatch_queue_t queue = dispatch_queue_create(s, 0);
         
         dispatch_async(queue, ^{
-            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:data[number][@"photo_50"]]];
+            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:data[number][@"photo_100"]]];
             UIImage *img = [UIImage imageWithData:photo];
             dispatch_async(dispatch_get_main_queue(), ^{
                 if ([tableView indexPathForCell:cell].row == number) {

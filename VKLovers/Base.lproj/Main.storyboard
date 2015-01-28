@@ -62,15 +62,15 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2581.5" y="553"/>
+            <point key="canvasLocation" x="1665" y="-105.75"/>
         </scene>
         <!--Page View Controller-->
         <scene sceneID="zz4-Vu-DdQ">
             <objects>
-                <pageViewController storyboardIdentifier="Tutorial" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="13t-Q9-Fvv" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="kTutorialViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="13t-Q9-Fvv" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dC5-Mr-o3g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3390" y="553"/>
+            <point key="canvasLocation" x="2473.5" y="-105.75"/>
         </scene>
         <!--Friends-->
         <scene sceneID="oOg-Un-4Kl">
@@ -238,7 +238,6 @@
                     <connections>
                         <outlet property="allFriendsSegment" destination="wvm-Kb-hG0" id="fAY-8R-0EU"/>
                         <outlet property="searchDisplayController" destination="6dL-my-g0h" id="Pqz-y8-xT5"/>
-                        <segue destination="vXZ-lx-hvc" kind="presentation" identifier="LOGIN" animates="NO" id="bbr-t5-RCP"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3yt-NJ-zAq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -252,7 +251,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1359" y="498.75"/>
+            <point key="canvasLocation" x="1665" y="552.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9HK-bx-Exk">

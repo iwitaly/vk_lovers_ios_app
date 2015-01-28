@@ -53,7 +53,7 @@
 //info about his friends: name, last name, sex, photo 50x50
 + (VKRequest *)allFriends {
     VKRequest *friends = [[VKApi friends]
-                          get:@{VK_API_FIELDS : @"id,first_name,last_name,sex,photo_50", VK_API_ORDER : @"hints"}];
+                          get:@{VK_API_FIELDS : @"id,first_name,last_name,sex,photo_100", VK_API_ORDER : @"hints"}];
     return friends;
 }
 
