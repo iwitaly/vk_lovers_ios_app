@@ -70,21 +70,20 @@ static const NSString *is_completed = @"is_completed";
 }
 
 ////users/who_vk_id/who_confession/
-- (void)getWhoConfessionListForUser:(IWUser *)user {
+- (void)getWhoConfessionListForUser:(IWUser *)user withCompletion:(IWConfessionHandler)handler {
     NSString *url = [kBaseUrl stringByAppendingFormat:@"%@/who_confession/",user.vk_id];
     [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:k_NotificationGotConfessionsFromServer object:responseObject];
-        NSLog(@"Who confession list %@", responseObject);
+        handler(responseObject);
+//        NSLog(@"Who confession list %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);
     }];
 }
 
-- (void)getWhoConfessionListForCurrentUser {
-    NSLog(@"%@", [IWVkManager sharedManager].currentUserVkId);
-    
+- (void)getWhoConfessionListForCurrentUserWithCompletion:(IWConfessionHandler)handler {
+//    NSLog(@"%@", [IWVkManager sharedManager].currentUserVkId);
     IWUser *currentUser = [IWUser userWithVkId:[IWVkManager sharedManager].currentUserVkId mobile:nil email:nil];
-    [self getWhoConfessionListForUser:currentUser];
+    [self getWhoConfessionListForUser:currentUser withCompletion:handler];
 }
 
 - (void)postConfession:(IWConfession *)confession {

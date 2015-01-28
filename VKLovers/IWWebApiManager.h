@@ -12,6 +12,8 @@
 
 #define k_NotificationGotConfessionsFromServer @"kNotificationGotConfessionsFromServer"
 
+typedef void(^IWConfessionHandler)(id response);
+
 @protocol IWWebApiManagerDelegate <NSObject>
 
 - (void)didEndPostConfession:(IWConfession *)confession withResult:(BOOL)is_completed;
@@ -34,9 +36,9 @@
 
 //users/who_vk_id/who_confession/
 //gonna make throw notifications
-- (void)getWhoConfessionListForUser:(IWUser *)user;
+- (void)getWhoConfessionListForUser:(IWUser *)user withCompletion:(IWConfessionHandler)handler;
 - (void)postConfession:(IWConfession *)confession;
-- (void)getWhoConfessionListForCurrentUser;
+- (void)getWhoConfessionListForCurrentUserWithCompletion:(IWConfessionHandler)handler;
 
 //users/who_vk_id/who_confession/to_who_vk_id/
 - (IWConfession *)getConfessionFromUser:(IWUser *)who toUser:(IWUser *)toWho;

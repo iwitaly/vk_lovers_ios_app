@@ -86,11 +86,6 @@
 - (void)addNotificationsObservers {
     [[NSNotificationCenter defaultCenter]
      addObserver:self
-     selector:@selector(handleConfessions:)
-     name:k_NotificationGotConfessionsFromServer object:nil];
-    
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
      selector:@selector(handleDisabling)
      name:k_NotificationName_DisableAllFriendsSegment object:nil];
     
@@ -134,28 +129,25 @@
     [self liftChosenFriendsUp];
 }
 
-//got notifications from server
-- (void)handleConfessions:(NSNotification *)notification {
-    if (((NSArray *)notification.object).count) {
-        self.confessions = [NSMutableArray arrayWithArray:notification.object];
-        for (int i = 0; i < self.confessions.count; ++i) {
-            NSString *whoVKid = [NSString stringWithFormat:@"%@", self.confessions[i][@"who_vk_id"]];
-            NSString *toWhoVKid = [NSString stringWithFormat:@"%@", self.confessions[i][@"to_who_vk_id"]];
-            IWConfession *newConfession = [IWConfession confessionWithWhoVkId:whoVKid
-                                                                    toWhoVkId:toWhoVKid
-                                                                         type:(ConfessionType)[self.confessions[i][@"type"] integerValue]];
-            self.confessions[i] = newConfession;
-        }
-    } else {
-        self.confessions = [[NSMutableArray alloc] init];
-    }
-}
-
 - (void)loadFriendList {
-    //load confessions from server, handle notification
-    [[IWWebApiManager sharedManager] getWhoConfessionListForCurrentUser];
+    //load confessions from server
+    [[IWWebApiManager sharedManager] getWhoConfessionListForCurrentUserWithCompletion:^(id response) {
+        if (((NSArray *)response).count) {
+            self.confessions = [response mutableCopy];
+            for (int i = 0; i < self.confessions.count; ++i) {
+                NSString *whoVKid = [NSString stringWithFormat:@"%@", self.confessions[i][@"who_vk_id"]];
+                NSString *toWhoVKid = [NSString stringWithFormat:@"%@", self.confessions[i][@"to_who_vk_id"]];
+                IWConfession *newConfession = [IWConfession confessionWithWhoVkId:whoVKid
+                                                                        toWhoVkId:toWhoVKid
+                                                                             type:(ConfessionType)[self.confessions[i][@"type"] integerValue]];
+                self.confessions[i] = newConfession;
+            }
+        } else {
+            self.confessions = [NSMutableArray new];
+        }
+    }];
 
-    //got friends from server, handle notification
+    //got friends from server
     [[IWVkManager allFriends] executeWithResultBlock:^(VKResponse *response) {
         self.friends = response.json[@"items"];
         [self loadUsersSex];
