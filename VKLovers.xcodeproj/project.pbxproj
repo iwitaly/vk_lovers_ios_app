@@ -45,7 +45,7 @@
 		730004B91A6EA03D0082C1EA /* IWSegmentControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWSegmentControl.h; sourceTree = "<group>"; };
 		730004BA1A6EA03D0082C1EA /* IWSegmentControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWSegmentControl.m; sourceTree = "<group>"; };
 		7348B7B91A716E6100ED4504 /* NSMutableArray+confessionManagment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+confessionManagment.h"; sourceTree = "<group>"; };
-		7348B7BA1A716E6100ED4504 /* NSMutableArray+confessionManagment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+confessionManagment.m"; sourceTree = "<group>"; };
+		7348B7BA1A716E6100ED4504 /* NSMutableArray+confessionManagment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+confessionManagment.m"; sourceTree = "<group>"; wrapsLines = 0; };
 		73CD36171A6C3E8D0026232F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		73CD361A1A6C3EC90026232F /* VKLovers.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VKLovers.xcdatamodel; sourceTree = "<group>"; };
 		73CD36701A6D98930026232F /* IWVkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWVkManager.h; sourceTree = "<group>"; };

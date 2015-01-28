@@ -22,7 +22,7 @@
 
 + (instancetype)sharedManager;
 
-@property (weak) id <IWWebApiManagerDelegate> webManagerDelegate;
+@property (nonatomic, weak) id <IWWebApiManagerDelegate> webManagerDelegate;
 
 //users/
 - (void)postUser:(IWUser *)user;

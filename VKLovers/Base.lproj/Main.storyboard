@@ -59,9 +59,6 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="TWI-ka-M5o"/>
-                    <connections>
-                        <segue destination="13t-Q9-Fvv" kind="presentation" identifier="TUTORIAL" animates="NO" id="cOc-db-O2y"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
@@ -70,7 +67,7 @@
         <!--Page View Controller-->
         <scene sceneID="zz4-Vu-DdQ">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="13t-Q9-Fvv" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="Tutorial" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="13t-Q9-Fvv" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dC5-Mr-o3g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3390" y="553"/>
@@ -128,6 +125,9 @@
                                                     <include reference="qII-UM-Sz6"/>
                                                 </mask>
                                             </variation>
+                                            <connections>
+                                                <action selector="chooseFriend:" destination="ogf-8T-TIx" eventType="valueChanged" id="6Vf-ES-Mec"/>
+                                            </connections>
                                         </segmentedControl>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nhl-kx-g7e">
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
@@ -252,7 +252,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1812" y="552.75"/>
+            <point key="canvasLocation" x="1359" y="498.75"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="9HK-bx-Exk">

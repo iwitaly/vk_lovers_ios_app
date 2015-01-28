@@ -23,7 +23,7 @@
     self.name.adjustsFontSizeToFitWidth = YES;
 }
 
-- (void)chooseFriend:(IWSegmentControl *)segmentControl {
+- (IBAction)chooseFriend:(IWSegmentControl *)segmentControl {
     int selectedIndex = segmentControl.selectedSegmentIndex;
 
     NSString *toWhoVkId = [NSString stringWithFormat:@"%@", self.usersInfo[@"id"]];
@@ -65,6 +65,7 @@
 }
 
 - (void)prepareForReuse {
+    [super prepareForReuse];
     self.avatar.image = nil;
     self.choice.selectedSegmentIndex = -1;
 }

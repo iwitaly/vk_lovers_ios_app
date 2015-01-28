@@ -34,6 +34,8 @@
 //    BOOL validVKSession = [vkManager validVKSession];
 //    NSString *controllerToOpen = validVKSession ? kMainViewController : kLoginViewController;
 //    self.window.rootViewController = [self.window.rootViewController.storyboard instantiateViewControllerWithIdentifier:controllerToOpen];
+//    
+//    [application registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound];
     
     return YES;
 }
@@ -41,6 +43,7 @@
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     [VKSdk processOpenURL:url fromApplication:sourceApplication];
+    
     return YES;
 }
 

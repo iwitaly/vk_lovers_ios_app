@@ -40,6 +40,8 @@
 #pragma mark Controller lifecycle
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(handleConfessions:)
@@ -67,10 +69,6 @@
     self.tableView.contentOffset = CGPointMake(0, self.searchDisplayController.searchBar.frame.size.height);
 }
 
-- (void)viewDidDisappear:(BOOL)animated {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
 - (void)addSearchController {
 //    searchBar = [[UISearchBar alloc] initWithFrame:self.navigationItem.titleView.frame];
 //    self.navigationItem.titleView = searchBar;
@@ -85,7 +83,7 @@
 //    searchDisplayController.displaysSearchBarInNavigationBar = YES;
 }
 
-- (void)addRefreshController {
+- (void)addRefreshControl {
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
 }
@@ -98,7 +96,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.searchDisplayController.searchResultsTableView.rowHeight = self.tableView.rowHeight;
-    [self addRefreshController];
+    [self addRefreshControl];
     [IWWebApiManager sharedManager].webManagerDelegate = self;
 //    [self addSearchController];
     self.tableView.allowsSelection = NO;
@@ -107,7 +105,7 @@
 #pragma mark Loading
 
 - (void)filterFriendsBySex:(NSNumber *)sex {
-    NSMutableArray *newArray = [[NSMutableArray alloc] init];
+    NSMutableArray *newArray = [NSMutableArray new];
     NSNumber *sexToShow = (sex.integerValue == 2) ? @1 : @2;
     sexToShow = !sex ? @0 : sexToShow;
     
@@ -148,7 +146,7 @@
 - (void)loadFriendList {
     //load confessions from server, handle notification
     [[IWWebApiManager sharedManager] getWhoConfessionListForCurrentUser];
-    
+
     //got friends from server, handle notification
     [[IWVkManager allFriends] executeWithResultBlock:^(VKResponse *response) {
         self.friends = response.json[@"items"];
@@ -278,8 +276,8 @@
 - (void)updateCell:(IWVkPersonTableViewCell *)cell forCellAtIndexPath:(NSIndexPath *)indexPath withData:(NSArray *)data forTableView:(UITableView *)tableView {
     NSUInteger number = indexPath.row;
     
-    [cell.choice removeTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
-    [cell.choice addTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
+//    [cell.choice removeTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
+//    [cell.choice addTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
     
     cell.name.text = data[number][@"name"];
     cell.usersInfo = data[number];
@@ -361,6 +359,10 @@
     if (is_completed) {
         [self showMatchViewWithConfession:confession];
     }
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 @end
