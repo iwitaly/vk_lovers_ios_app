@@ -83,7 +83,27 @@ static const NSString *is_completed = @"is_completed";
 - (void)getWhoConfessionListForCurrentUserWithCompletion:(IWConfessionHandler)handler {
 //    NSLog(@"%@", [IWVkManager sharedManager].currentUserVkId);
     IWUser *currentUser = [IWUser userWithVkId:[IWVkManager sharedManager].currentUserVkId mobile:nil email:nil];
-    [self getWhoConfessionListForUser:currentUser withCompletion:handler];
+    
+    NSString *url = [kBaseUrl stringByAppendingFormat:@"%@/who_confession/",currentUser.vk_id];
+    [self.manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSMutableArray *confessions = [NSMutableArray new];
+        
+        if (((NSArray *)responseObject).count) {
+            confessions = [responseObject mutableCopy];
+            for (int i = 0; i < confessions.count; ++i) {
+                NSString *whoVKid = [NSString stringWithFormat:@"%@", confessions[i][@"who_vk_id"]];
+                NSString *toWhoVKid = [NSString stringWithFormat:@"%@", confessions[i][@"to_who_vk_id"]];
+                IWConfession *newConfession = [IWConfession confessionWithWhoVkId:whoVKid
+                                                                        toWhoVkId:toWhoVKid
+                                                                             type:(ConfessionType)[confessions[i][@"type"] integerValue]];
+                confessions[i] = newConfession;
+            }
+        }
+        handler(confessions);
+        //        NSLog(@"Who confession list %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@", error);
+    }];
 }
 
 - (void)postConfession:(IWConfession *)confession {

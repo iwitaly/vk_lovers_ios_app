@@ -12,7 +12,7 @@
 
 #define k_NotificationGotConfessionsFromServer @"kNotificationGotConfessionsFromServer"
 
-typedef void(^IWConfessionHandler)(id response);
+typedef void(^IWConfessionHandler)(NSMutableArray *response);
 
 @protocol IWWebApiManagerDelegate <NSObject>
 

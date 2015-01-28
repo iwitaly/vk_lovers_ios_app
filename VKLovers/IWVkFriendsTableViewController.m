@@ -131,20 +131,8 @@
 
 - (void)loadFriendList {
     //load confessions from server
-    [[IWWebApiManager sharedManager] getWhoConfessionListForCurrentUserWithCompletion:^(id response) {
-        if (((NSArray *)response).count) {
-            self.confessions = [response mutableCopy];
-            for (int i = 0; i < self.confessions.count; ++i) {
-                NSString *whoVKid = [NSString stringWithFormat:@"%@", self.confessions[i][@"who_vk_id"]];
-                NSString *toWhoVKid = [NSString stringWithFormat:@"%@", self.confessions[i][@"to_who_vk_id"]];
-                IWConfession *newConfession = [IWConfession confessionWithWhoVkId:whoVKid
-                                                                        toWhoVkId:toWhoVKid
-                                                                             type:(ConfessionType)[self.confessions[i][@"type"] integerValue]];
-                self.confessions[i] = newConfession;
-            }
-        } else {
-            self.confessions = [NSMutableArray new];
-        }
+    [[IWWebApiManager sharedManager] getWhoConfessionListForCurrentUserWithCompletion:^(NSMutableArray *response) {
+        self.confessions = response;
     }];
 
     //got friends from server
