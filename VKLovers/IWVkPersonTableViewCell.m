@@ -36,10 +36,7 @@
     IWConfession *newConfession = [IWConfession confessionWithWhoVkId:whoVKid
                                                             toWhoVkId:toWhoVkId
                                                                  type:selectedIndex];
-    NSLog(@"count %@", self.confessions);
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:k_NotificationName_DisableAllFriendsSegment object:nil];
-    
+//    NSLog(@"count %@", self.confessions);    
     if (selectedIndex == IndexTypeNothing) {
         //delete
         [[IWWebApiManager sharedManager] deleteConfession:newConfession];
@@ -50,7 +47,7 @@
         [self.confessions changeConfessionTypeWithWhoVkId:whoVKid toWhoVkId:toWhoVkId andType:selectedIndex];
     }
     
-    NSLog(@"count %@", self.confessions);
+//    NSLog(@"count %@", self.confessions);
 }
 
 - (void)setupSegmentControlUsingConfessions:(NSArray *)confessions {

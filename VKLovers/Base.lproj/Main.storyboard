@@ -127,6 +127,7 @@
                                             </variation>
                                             <connections>
                                                 <action selector="chooseFriend:" destination="ogf-8T-TIx" eventType="valueChanged" id="6Vf-ES-Mec"/>
+                                                <action selector="disableDidSelectALlOnTouch" destination="xk7-1h-t4V" eventType="valueChanged" id="eMQ-gT-E0U"/>
                                             </connections>
                                         </segmentedControl>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nhl-kx-g7e">

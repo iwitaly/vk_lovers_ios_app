@@ -86,11 +86,6 @@
 - (void)addNotificationsObservers {
     [[NSNotificationCenter defaultCenter]
      addObserver:self
-     selector:@selector(handleDisabling)
-     name:k_NotificationName_DisableAllFriendsSegment object:nil];
-    
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
      selector:@selector(liftChosenFriendsUp)
      name:UIApplicationDidBecomeActiveNotification object:nil];
 }
@@ -195,7 +190,7 @@
     self.friends = buffArray;
 }
 
-- (void)handleDisabling {
+- (IBAction)disableDidSelectALlOnTouch {
     self.didSelectAll = NO;
 }
 
