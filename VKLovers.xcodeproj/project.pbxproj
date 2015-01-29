@@ -27,6 +27,7 @@
 		73D489591A6BF4A600176CD4 /* IWVkPersonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D489581A6BF4A600176CD4 /* IWVkPersonTableViewCell.m */; };
 		73D4B7151A78055600AF5B91 /* IWMatchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73D4B7141A78055600AF5B91 /* IWMatchView.xib */; };
 		73D4B7181A780DB800AF5B91 /* IWMatchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D4B7171A780DB800AF5B91 /* IWMatchView.m */; };
+		73D4B71F1A7A467D00AF5B91 /* UINavigationItem+MultipleButtonsAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 73D4B71E1A7A467D00AF5B91 /* UINavigationItem+MultipleButtonsAddition.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,8 @@
 		73D4B7141A78055600AF5B91 /* IWMatchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IWMatchView.xib; sourceTree = "<group>"; };
 		73D4B7161A780DB800AF5B91 /* IWMatchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWMatchView.h; sourceTree = "<group>"; };
 		73D4B7171A780DB800AF5B91 /* IWMatchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWMatchView.m; sourceTree = "<group>"; };
+		73D4B71D1A7A467D00AF5B91 /* UINavigationItem+MultipleButtonsAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationItem+MultipleButtonsAddition.h"; sourceTree = "<group>"; };
+		73D4B71E1A7A467D00AF5B91 /* UINavigationItem+MultipleButtonsAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationItem+MultipleButtonsAddition.m"; sourceTree = "<group>"; };
 		EC71FB911722F546E2A41B78 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -194,6 +197,8 @@
 				73D4B7161A780DB800AF5B91 /* IWMatchView.h */,
 				73D4B7171A780DB800AF5B91 /* IWMatchView.m */,
 				73D4B7141A78055600AF5B91 /* IWMatchView.xib */,
+				73D4B71D1A7A467D00AF5B91 /* UINavigationItem+MultipleButtonsAddition.h */,
+				73D4B71E1A7A467D00AF5B91 /* UINavigationItem+MultipleButtonsAddition.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -361,6 +366,7 @@
 				73CD36781A6E637E0026232F /* IWWebApiManager.m in Sources */,
 				73D4894F1A6BEAEF00176CD4 /* IWConfession.m in Sources */,
 				73D489561A6BF3B000176CD4 /* IWVkFriendsTableViewController.m in Sources */,
+				73D4B71F1A7A467D00AF5B91 /* UINavigationItem+MultipleButtonsAddition.m in Sources */,
 				73D489251A6BDD1400176CD4 /* IWLoginViewController.m in Sources */,
 				73D489221A6BDD1400176CD4 /* AppDelegate.m in Sources */,
 				73CD361B1A6C3EC90026232F /* VKLovers.xcdatamodeld in Sources */,

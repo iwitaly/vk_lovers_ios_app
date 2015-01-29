@@ -25,7 +25,7 @@
 @property (nonatomic, strong) NSMutableArray *friends;
 @property (nonatomic, strong) NSMutableArray *filteredFriends;
 @property (nonatomic, strong) NSMutableArray *confessions;
-@property (weak, nonatomic) IBOutlet IWSegmentControl *allFriendsSegment;
+@property BOOL didSelectAll;
 
 @end
 
@@ -195,18 +195,20 @@
     self.friends = buffArray;
 }
 
-//disable segment control for choosing all friends
 - (void)handleDisabling {
-    self.allFriendsSegment.selectedSegmentIndex = IndexTypeNothing;
+    self.didSelectAll = NO;
 }
 
-- (IBAction)sendConfessionsToAllUsers:(IWSegmentControl *)sender {
-    NSMutableArray *confs = [[NSMutableArray alloc] init];
-    int selectedIndex = sender.selectedSegmentIndex;
+- (IBAction)sendConfessionsToAllUsers:(UIBarButtonItem *)sender {
+    NSMutableArray *confs = [NSMutableArray new];
+    int selectedIndex = sender.tag;
+    ConfessionType type = -1;
+    if (self.confessions.count) {
+        type = ((IWConfession *)self.confessions[0]).type;
+    }
+    self.confessions = [NSMutableArray new];
     
-    self.confessions = [[NSMutableArray alloc] init];
-    
-    if (selectedIndex == IndexTypeNothing) {
+    if (self.didSelectAll == YES && selectedIndex == type) {//All was selected -> DELETE them or PUT
         [[IWWebApiManager sharedManager] removeConfessions:self.confessions];
     } else {
         for (NSDictionary *dics in self.friends) {
@@ -222,6 +224,8 @@
             [self.confessions addObject:newConfession];
         }
         [[IWWebApiManager sharedManager] postArrayOfConfessions:confs];
+        
+        self.didSelectAll = YES;
     }
     [self.tableView reloadData];
 }

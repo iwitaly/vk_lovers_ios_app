@@ -221,22 +221,12 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" id="pBZ-o4-6Z2">
-                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" id="wvm-Kb-hG0" customClass="IWSegmentControl">
-                                <rect key="frame" x="-61" y="-14" width="123" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title=""/>
-                                    <segment title=""/>
-                                </segments>
-                                <connections>
-                                    <action selector="sendConfessionsToAllUsers:" destination="xk7-1h-t4V" eventType="valueChanged" id="fh1-pe-cq6"/>
-                                </connections>
-                            </segmentedControl>
-                        </barButtonItem>
+                        <connections>
+                            <outletCollection property="rightBarButtonItemsCollection" destination="UXl-8p-v06" id="ZS4-l7-bV6"/>
+                            <outletCollection property="rightBarButtonItemsCollection" destination="1J5-CN-YCt" id="bOO-uk-WpX"/>
+                        </connections>
                     </navigationItem>
                     <connections>
-                        <outlet property="allFriendsSegment" destination="wvm-Kb-hG0" id="fAY-8R-0EU"/>
                         <outlet property="searchDisplayController" destination="6dL-my-g0h" id="Pqz-y8-xT5"/>
                     </connections>
                 </tableViewController>
@@ -250,6 +240,16 @@
                         <outlet property="searchResultsDelegate" destination="xk7-1h-t4V" id="vs9-1h-Chn"/>
                     </connections>
                 </searchDisplayController>
+                <barButtonItem title="Date" id="1J5-CN-YCt">
+                    <connections>
+                        <action selector="sendConfessionsToAllUsers:" destination="xk7-1h-t4V" id="yrK-zN-XEZ"/>
+                    </connections>
+                </barButtonItem>
+                <barButtonItem tag="1" title="Sex" id="UXl-8p-v06">
+                    <connections>
+                        <action selector="sendConfessionsToAllUsers:" destination="xk7-1h-t4V" id="IHu-Ol-F46"/>
+                    </connections>
+                </barButtonItem>
             </objects>
             <point key="canvasLocation" x="1665" y="552.75"/>
         </scene>
