@@ -64,6 +64,7 @@
 - (void)prepareForReuse {
     [super prepareForReuse];
     self.avatar.image = nil;
+    self.name.text = nil;
     self.choice.selectedSegmentIndex = -1;
 }
 

@@ -256,7 +256,6 @@
             });
         });
     }
-    
     [cell setupSegmentControlUsingConfessions:self.confessions];
 }
 
