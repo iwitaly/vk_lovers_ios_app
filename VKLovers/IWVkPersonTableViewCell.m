@@ -61,6 +61,32 @@
     }
 }
 
+- (void)updateCellWithData:(NSArray *)data withNumber:(NSUInteger)number asyncUpdateOriginalCell:(IWVkPersonTableViewCellBlock)bloc {
+    self.name.text = data[number][@"name"];
+    self.usersInfo = data[number];
+    self.confessions = [IWWebApiManager sharedManager].confessions;
+    
+    NSString *identifier = [NSString stringWithFormat:@"Cell%d", number];
+    
+    if (data[number][@"avatar"]) {
+        self.avatar.image = data[number][@"avatar"];
+    } else {
+        char const *s = [identifier  UTF8String];
+        dispatch_queue_t queue = dispatch_queue_create(s, 0);
+        
+        dispatch_async(queue, ^{
+            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:data[number][@"photo_100"]]];
+            UIImage *img = [UIImage imageWithData:photo];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                IWVkPersonTableViewCell *originalCell = (id)bloc();
+                data[number][@"avatar"] = img;
+                originalCell.avatar.image = data[number][@"avatar"];
+            });
+        });
+    }
+    [self setupSegmentControlUsingConfessions:self.confessions];
+}
+
 - (void)prepareForReuse {
     [super prepareForReuse];
     self.avatar.image = nil;

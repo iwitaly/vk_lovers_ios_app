@@ -11,11 +11,15 @@
 
 #define k_NotificationName_DisableAllFriendsSegment @"k_NotificationName_DisableAllFriendsSegment"
 
+@class IWVkPersonTableViewCell;
+
 typedef NS_ENUM(NSInteger, IndexType) {
     IndexTypeNothing = -1,
     IndexTypeDate = 0,
     IndexTypeSex = 1
 };
+
+typedef IWVkPersonTableViewCell* (^IWVkPersonTableViewCellBlock)(void);
 
 @interface IWVkPersonTableViewCell : UITableViewCell
 
@@ -27,5 +31,7 @@ typedef NS_ENUM(NSInteger, IndexType) {
 
 - (void)chooseFriend:(IWSegmentControl *)segmentControl;
 - (void)setupSegmentControlUsingConfessions:(NSArray *)confessions;
+
+- (void)updateCellWithData:(NSArray *)data withNumber:(NSUInteger)number asyncUpdateOriginalCell:(IWVkPersonTableViewCellBlock)block;
 
 @end

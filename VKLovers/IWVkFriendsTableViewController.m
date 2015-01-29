@@ -168,7 +168,8 @@
     if (self.confessions.count) {
         type = ((IWConfession *)self.confessions[0]).type;
     }
-    self.confessions = [NSMutableArray new];
+    
+    [[IWWebApiManager sharedManager].confessions removeAllObjects];
     
     if (self.didSelectAll == YES && selectedIndex == type) {//All was selected -> DELETE them or PUT
         [[IWWebApiManager sharedManager] removeConfessions:self.confessions];
@@ -232,31 +233,9 @@
     
 //    [cell.choice removeTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
 //    [cell.choice addTarget:cell action:@selector(chooseFriend:) forControlEvents:UIControlEventValueChanged];
-    
-    cell.name.text = data[number][@"name"];
-    cell.usersInfo = data[number];
-    cell.confessions = self.confessions;
-    
-    NSString *identifier = [NSString stringWithFormat:@"Cell%d", number];
-    
-    if (data[number][@"avatar"]) {
-        cell.avatar.image = data[number][@"avatar"];
-    } else {
-        char const *s = [identifier  UTF8String];
-        dispatch_queue_t queue = dispatch_queue_create(s, 0);
-        
-        dispatch_async(queue, ^{
-            NSData *photo = [NSData dataWithContentsOfURL:[NSURL URLWithString:data[number][@"photo_100"]]];
-            UIImage *img = [UIImage imageWithData:photo];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if ([tableView indexPathForCell:cell].row == number) {
-                    data[number][@"avatar"] = img;
-                    cell.avatar.image = data[number][@"avatar"];
-                }
-            });
-        });
-    }
-    [cell setupSegmentControlUsingConfessions:self.confessions];
+    [cell updateCellWithData:data withNumber:number asyncUpdateOriginalCell:^IWVkPersonTableViewCell *{
+        return (id)[tableView cellForRowAtIndexPath:indexPath];
+    }];    
 }
 
 #pragma mark - Content Filtering
