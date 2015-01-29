@@ -12,12 +12,16 @@
 
 @property (nonatomic, strong) NSString *currentUserVkId;
 
+typedef void(^IWFriendsBlock)(NSMutableArray *response);
+
+
 //info about current user
 + (VKRequest *)info;
-//info about his friends: name, last name, sex, photo 50x50
+//info about his friends: name, last name, sex, photo 100x100
 + (VKRequest *)allFriends;
 + (instancetype)sharedManager;
 - (BOOL)validVKSession;
 - (void)login;
+- (void)loadFriendsForCurrentUserWithCompletion:(IWFriendsBlock)block;
 
 @end

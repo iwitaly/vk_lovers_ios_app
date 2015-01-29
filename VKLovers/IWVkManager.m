@@ -130,4 +130,48 @@
     [main dismissViewControllerAnimated:YES completion:nil];
 }
 
+/**
+ Load friends for current users sex
+ */
+
+- (NSMutableArray *)filterFriends:(NSArray *)friends bySex:(NSNumber *)sex {
+    NSMutableArray *newArray = [NSMutableArray new];
+    NSNumber *sexToShow = (sex.integerValue == 2) ? @1 : @2;
+    sexToShow = !sex ? @0 : sexToShow;
+    
+    if (sexToShow.integerValue) {
+        for (NSDictionary *friend in friends) {
+            if ([friend[@"sex"] isEqualToNumber:sexToShow]) {
+                //add new field name to all friends
+                NSMutableDictionary *mutableFriend = [friend mutableCopy];
+                mutableFriend[@"name"] = [friend[@"first_name"] stringByAppendingFormat:@" %@",friend[@"last_name"]];
+                [newArray addObject:mutableFriend];
+            }
+        }
+    } else {
+        [[[UIAlertView alloc] initWithTitle:@"No sex!" message:@"No sex mentioned in your profile" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
+    }
+    
+    return newArray;
+}
+
+- (void)loadFriendsForCurrentUserWithCompletion:(IWFriendsBlock)block {
+    //ask for users friends
+    [[IWVkManager allFriends] executeWithResultBlock:^(VKResponse *response) {
+        NSArray *friends = response.json[@"items"];
+        
+        //ask for users sex
+        [[IWVkManager info] executeWithResultBlock:^(VKResponse *response) {
+            NSMutableArray *filteredFriends = [self filterFriends:friends bySex:response.json[0][@"sex"]];
+            block(filteredFriends);
+        } errorBlock:^(NSError *error) {
+            NSLog(@"Error with getting users info %@", error);
+        }];
+
+        
+    } errorBlock:^(NSError *error) {
+        NSLog(@"Error with loading friend list %@", error.description);
+    }];
+}
+
 @end

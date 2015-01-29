@@ -99,6 +99,7 @@ static const NSString *is_completed = @"is_completed";
                 confessions[i] = newConfession;
             }
         }
+        self.confessions = confessions;
         handler(confessions);
         //        NSLog(@"Who confession list %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

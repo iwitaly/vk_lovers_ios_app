@@ -25,6 +25,7 @@ typedef void(^IWConfessionHandler)(NSMutableArray *response);
 + (instancetype)sharedManager;
 
 @property (nonatomic, weak) id <IWWebApiManagerDelegate> webManagerDelegate;
+@property (nonatomic, strong) NSMutableArray *confessions;
 
 //users/
 - (void)postUser:(IWUser *)user;

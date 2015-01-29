@@ -50,7 +50,7 @@
         [self presentViewController:loginVc animated:NO completion:nil];
         
     } else {
-        [self loadFriendList];
+        [self loadData];
     }
 }
 
@@ -79,7 +79,7 @@
 }
 
 - (void)refresh:(UIRefreshControl *)sender {
-    [self loadFriendList];
+    [self loadData];
     [sender endRefreshing];
 }
 
@@ -102,48 +102,16 @@
 
 #pragma mark Loading
 
-- (void)filterFriendsBySex:(NSNumber *)sex {
-    NSMutableArray *newArray = [NSMutableArray new];
-    NSNumber *sexToShow = (sex.integerValue == 2) ? @1 : @2;
-    sexToShow = !sex ? @0 : sexToShow;
-    
-    if (sexToShow.integerValue) {
-        for (NSDictionary *friend in self.friends) {
-            if ([friend[@"sex"] isEqualToNumber:sexToShow]) {
-                //add new field name to all friends
-                NSMutableDictionary *mutableFriend = [friend mutableCopy];
-                mutableFriend[@"name"] = [friend[@"first_name"] stringByAppendingFormat:@" %@",friend[@"last_name"]];
-                [newArray addObject:mutableFriend];
-            }
-        }
-    } else {
-        [[[UIAlertView alloc] initWithTitle:@"No sex!" message:@"No sex mentioned in your profile" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil] show];
-    }
-    
-    self.friends = newArray;
-    [self liftChosenFriendsUp];
-}
-
-- (void)loadFriendList {
+- (void)loadData {
     //load confessions from server
     [[IWWebApiManager sharedManager] getWhoConfessionListForCurrentUserWithCompletion:^(NSMutableArray *response) {
         self.confessions = response;
     }];
-
+    
     //got friends from server
-    [[IWVkManager allFriends] executeWithResultBlock:^(VKResponse *response) {
-        self.friends = response.json[@"items"];
-        [self loadUsersSex];
-    } errorBlock:^(NSError *error) {
-        NSLog(@"Error with loading friend list %@", error.description);
-    }];
-}
-
-- (void)loadUsersSex {
-    [[IWVkManager info] executeWithResultBlock:^(VKResponse *response) {
-        [self filterFriendsBySex:response.json[0][@"sex"]];
-    } errorBlock:^(NSError *error) {
-        NSLog(@"Error with getting users info %@", error);
+    [[IWVkManager sharedManager] loadFriendsForCurrentUserWithCompletion:^(NSMutableArray *response) {
+        self.friends = response;
+        [self liftChosenFriendsUp];
     }];
 }
 
@@ -151,10 +119,9 @@
 #pragma mark Actions
 
 - (void)liftChosenFriendsUp {
-    if (!self.friends || !self.confessions) {
-        return;
+    if (self.friends && self.confessions) {
+        [self sortArrayOfFriendsInOrderOfArrayOfConfessions];
     }
-    [self sortArrayOfFriendsInOrderOfArrayOfConfessions];
     [self.tableView reloadData];
 }
 
