@@ -14,7 +14,6 @@
 
 typedef void(^IWFriendsBlock)(NSMutableArray *response);
 
-
 //info about current user
 + (VKRequest *)info;
 //info about his friends: name, last name, sex, photo 100x100

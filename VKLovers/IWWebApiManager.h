@@ -13,6 +13,7 @@
 #define k_NotificationGotConfessionsFromServer @"kNotificationGotConfessionsFromServer"
 
 typedef void(^IWConfessionHandler)(NSMutableArray *response);
+typedef void(^IWUserBlock)(void);
 
 @protocol IWWebApiManagerDelegate <NSObject>
 
@@ -28,7 +29,7 @@ typedef void(^IWConfessionHandler)(NSMutableArray *response);
 @property (nonatomic, strong) NSMutableArray *confessions;
 
 //users/
-- (void)postUser:(IWUser *)user;
+- (void)postUser:(IWUser *)user withCompletion:(IWUserBlock)block;
 
 
 //users/vk_id/
@@ -49,5 +50,8 @@ typedef void(^IWConfessionHandler)(NSMutableArray *response);
 //users/who_confession/
 - (void)postArrayOfConfessions:(NSArray *)confessions;
 - (void)removeConfessions:(NSArray *)confessions;
+
+//device/
+- (void)postDeviceId;
 
 @end

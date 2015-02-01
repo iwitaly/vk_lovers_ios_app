@@ -11,7 +11,7 @@
 @implementation IWSegmentControl
 
 - (void)awakeFromNib {
-    self.tintColor = [UIColor blackColor];
+//    self.tintColor = [UIColor blackColor];
 }
 
 + (BOOL)isIOS7 {

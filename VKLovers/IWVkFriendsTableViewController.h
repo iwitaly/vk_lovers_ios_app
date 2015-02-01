@@ -11,5 +11,6 @@
 
 @interface IWVkFriendsTableViewController : UITableViewController <UISearchDisplayDelegate, UISearchBarDelegate, IWWebApiManagerDelegate>
 
+- (void)showMatchViewWithConfession:(IWConfession *)confession;
 
 @end

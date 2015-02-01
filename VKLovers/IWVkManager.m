@@ -109,9 +109,9 @@
  Notifies delegate about receiving new access token
  @param newToken new token for API requests
  */
+
 - (void)vkSdkReceivedNewToken:(VKAccessToken *)newToken {
     AppDelegate *delegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    [delegate.window.rootViewController performSegueWithIdentifier:NEXT_CONTROLLER_SEGUE_ID sender:nil];
     
     [[NSUserDefaults standardUserDefaults] setObject:newToken.userId forKey:@"CurrentUserVkID"];
     //send basic info to server
@@ -121,7 +121,10 @@
         NSString *vkId = newToken.userId;
         
         IWUser *currentUser = [IWUser userWithVkId:vkId mobile:mobile email:email];
-        [[IWWebApiManager sharedManager] postUser:currentUser];
+        [[IWWebApiManager sharedManager] postUser:currentUser withCompletion:^{
+            [[IWWebApiManager sharedManager] postDeviceId];
+        }];
+        
     } errorBlock:^(NSError *error) {
         NSLog(@"Getting users unfo error %@", error);
     }];
@@ -167,8 +170,6 @@
         } errorBlock:^(NSError *error) {
             NSLog(@"Error with getting users info %@", error);
         }];
-
-        
     } errorBlock:^(NSError *error) {
         NSLog(@"Error with loading friend list %@", error.description);
     }];

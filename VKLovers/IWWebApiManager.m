@@ -11,8 +11,9 @@
 #import <AFNetworking/AFNetworking.h>
 
 //#define kBaseUrl @"http://vklovers.herokuapp.com/users/"
-#define kBaseUrl @"http://localhost:8000/users/"
-//#define kBaseUrl @"http://62.109.1.60:8000/users/"
+//#define kBaseUrl @"http://localhost:8000/users/"
+#define kBaseUrl @"http://62.109.1.60:8000/users/"
+#define kUrlForDevicePost @"http://62.109.1.60:8000/device/"
 
 static const NSString *vk_id = @"vk_id";
 static const NSString *mobile = @"mobile";
@@ -21,6 +22,8 @@ static const NSString *who_vk_id = @"who_vk_id";
 static const NSString *to_who_vk_id = @"to_who_vk_id";
 static const NSString *type = @"type";
 static const NSString *is_completed = @"is_completed";
+static const NSString *registration_id = @"registration_id";
+static const NSString *user = @"user";
 
 @interface IWWebApiManager()
 
@@ -48,12 +51,14 @@ static const NSString *is_completed = @"is_completed";
 }
 
 //users/
-- (void)postUser:(IWUser *)user {
+- (void)postUser:(IWUser *)user withCompletion:(IWUserBlock)block {
     NSDictionary *params = @{vk_id : user.vk_id,
                              mobile : user.mobile,
                              email : user.email};
+    NSLog(@"%@", params);
     [self.manager POST:kBaseUrl parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"POST user succsesfull! %@", responseObject);
+        block();
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@", error);
     }];
@@ -119,8 +124,8 @@ static const NSString *is_completed = @"is_completed";
         IWConfession *respondConfession = [IWConfession confessionWithWhoVkId:whoVKid
                                                                 toWhoVkId:toWhoVKid
                                                                      type:(ConfessionType)[responseObject[type] integerValue]];
-
-        [self.webManagerDelegate didEndPostConfession:respondConfession withResult:[responseObject[@"is_completed"] boolValue]];
+        
+//        [self.webManagerDelegate didEndPostConfession:respondConfession withResult:[responseObject[@"is_completed"] boolValue]];
         
         NSLog(@"%@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -173,6 +178,29 @@ static const NSString *is_completed = @"is_completed";
         NSLog(@"Delete ok %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
+    }];
+}
+
+//device/
+- (void)postDeviceId {
+    NSString *deviceToken = [[NSUserDefaults standardUserDefaults] stringForKey:@"DeviceToken"];
+    if (!deviceToken) {
+        [NSException raise:@"Whong device token" format:nil];
+    }
+    
+    NSString *clearedToken = [[deviceToken componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"< >"]] componentsJoinedByString:@""];
+    deviceToken = clearedToken;
+    NSLog(@"token = %@", deviceToken);
+    
+    NSString *url = kUrlForDevicePost;
+    NSDictionary *params = @{user : [IWVkManager sharedManager].currentUserVkId,
+                             registration_id : deviceToken
+                             };
+    [self.manager POST:url parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"DeviceToken"];
+        NSLog(@"Ok POST device %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error with post device %@", error);
     }];
 }
 

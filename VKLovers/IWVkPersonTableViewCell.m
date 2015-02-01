@@ -81,6 +81,9 @@
                 IWVkPersonTableViewCell *originalCell = (id)bloc();
                 data[number][@"avatar"] = img;
                 originalCell.avatar.image = data[number][@"avatar"];
+                originalCell.avatar.layer.cornerRadius = originalCell.avatar.frame.size.height / 2;
+                originalCell.avatar.layer.masksToBounds = YES;
+                originalCell.avatar.layer.borderWidth = 0;
             });
         });
     }
