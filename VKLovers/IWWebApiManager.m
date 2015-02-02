@@ -11,8 +11,8 @@
 #import <AFNetworking/AFNetworking.h>
 
 //#define kBaseUrl @"http://vklovers.herokuapp.com/users/"
-//#define kBaseUrl @"http://localhost:8000/users/"
-#define kBaseUrl @"http://62.109.1.60:8000/users/"
+#define kBaseUrl @"http://localhost:8000/users/"
+//#define kBaseUrl @"http://62.109.1.60:8000/users/"
 #define kUrlForDevicePost @"http://62.109.1.60:8000/device/"
 
 static const NSString *vk_id = @"vk_id";

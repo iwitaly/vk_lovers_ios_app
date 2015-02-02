@@ -122,7 +122,8 @@
         
         IWUser *currentUser = [IWUser userWithVkId:vkId mobile:mobile email:email];
         [[IWWebApiManager sharedManager] postUser:currentUser withCompletion:^{
-            [[IWWebApiManager sharedManager] postDeviceId];
+#warning Device Post
+//            [[IWWebApiManager sharedManager] postDeviceId];
         }];
         
     } errorBlock:^(NSError *error) {

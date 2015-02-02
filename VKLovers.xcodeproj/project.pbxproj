@@ -8,8 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		04B48BFC632D36881D0B2D70 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC71FB911722F546E2A41B78 /* libPods.a */; };
-		730004BB1A6EA03D0082C1EA /* IWSegmentControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 730004BA1A6EA03D0082C1EA /* IWSegmentControl.m */; };
 		7348B7BB1A716E6100ED4504 /* NSMutableArray+confessionManagment.m in Sources */ = {isa = PBXBuildFile; fileRef = 7348B7BA1A716E6100ED4504 /* NSMutableArray+confessionManagment.m */; };
+		7367E1991A7EB18C00A6DE34 /* IWButtonsContainerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7367E1981A7EB18C00A6DE34 /* IWButtonsContainerView.m */; };
 		73CD36181A6C3E8D0026232F /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73CD36171A6C3E8D0026232F /* CoreData.framework */; };
 		73CD361B1A6C3EC90026232F /* VKLovers.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 73CD36191A6C3EC90026232F /* VKLovers.xcdatamodeld */; };
 		73CD36721A6D98930026232F /* IWVkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 73CD36711A6D98930026232F /* IWVkManager.m */; };
@@ -43,10 +43,10 @@
 /* Begin PBXFileReference section */
 		47170409422E116E74C99B06 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		6404C41CDBC6F04495B68382 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		730004B91A6EA03D0082C1EA /* IWSegmentControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWSegmentControl.h; sourceTree = "<group>"; };
-		730004BA1A6EA03D0082C1EA /* IWSegmentControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWSegmentControl.m; sourceTree = "<group>"; };
 		7348B7B91A716E6100ED4504 /* NSMutableArray+confessionManagment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+confessionManagment.h"; sourceTree = "<group>"; };
 		7348B7BA1A716E6100ED4504 /* NSMutableArray+confessionManagment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+confessionManagment.m"; sourceTree = "<group>"; wrapsLines = 0; };
+		7367E1971A7EB18C00A6DE34 /* IWButtonsContainerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWButtonsContainerView.h; sourceTree = "<group>"; };
+		7367E1981A7EB18C00A6DE34 /* IWButtonsContainerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IWButtonsContainerView.m; sourceTree = "<group>"; };
 		73CD36171A6C3E8D0026232F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		73CD361A1A6C3EC90026232F /* VKLovers.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VKLovers.xcdatamodel; sourceTree = "<group>"; };
 		73CD36701A6D98930026232F /* IWVkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IWVkManager.h; sourceTree = "<group>"; };
@@ -192,8 +192,8 @@
 			children = (
 				73D489571A6BF4A600176CD4 /* IWVkPersonTableViewCell.h */,
 				73D489581A6BF4A600176CD4 /* IWVkPersonTableViewCell.m */,
-				730004B91A6EA03D0082C1EA /* IWSegmentControl.h */,
-				730004BA1A6EA03D0082C1EA /* IWSegmentControl.m */,
+				7367E1971A7EB18C00A6DE34 /* IWButtonsContainerView.h */,
+				7367E1981A7EB18C00A6DE34 /* IWButtonsContainerView.m */,
 				73D4B7161A780DB800AF5B91 /* IWMatchView.h */,
 				73D4B7171A780DB800AF5B91 /* IWMatchView.m */,
 				73D4B7141A78055600AF5B91 /* IWMatchView.xib */,
@@ -358,8 +358,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7367E1991A7EB18C00A6DE34 /* IWButtonsContainerView.m in Sources */,
 				73CD36721A6D98930026232F /* IWVkManager.m in Sources */,
-				730004BB1A6EA03D0082C1EA /* IWSegmentControl.m in Sources */,
 				73D489591A6BF4A600176CD4 /* IWVkPersonTableViewCell.m in Sources */,
 				73D4B7181A780DB800AF5B91 /* IWMatchView.m in Sources */,
 				7348B7BB1A716E6100ED4504 /* NSMutableArray+confessionManagment.m in Sources */,

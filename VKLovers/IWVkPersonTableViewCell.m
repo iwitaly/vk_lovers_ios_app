@@ -14,7 +14,6 @@
 
 @interface IWVkPersonTableViewCell()
 
-
 @end
 
 @implementation IWVkPersonTableViewCell
@@ -23,42 +22,45 @@
     self.name.adjustsFontSizeToFitWidth = YES;
 }
 
-- (IBAction)chooseFriend:(IWSegmentControl *)segmentControl {
-    int selectedIndex = segmentControl.selectedSegmentIndex;
-
+- (IBAction)chooseFriendButton:(UIButton *)sender {
+    int selectedIndex = sender.tag;
+    self.buttonsContainerView.selectedButton = selectedIndex;
+    
     NSString *toWhoVkId = [NSString stringWithFormat:@"%@", self.usersInfo[@"id"]];
-    //manage different cases:
-    //prev == -1 and selected != -1 -> POST new
-    //prev != -1 and selected != prev -> PUT
-    //prev != -1 and selected == prev -> DELETE
     NSString *whoVKid = [NSString stringWithFormat:@"%@", [[IWVkManager sharedManager] currentUserVkId]];
-
+    
     IWConfession *newConfession = [IWConfession confessionWithWhoVkId:whoVKid
                                                             toWhoVkId:toWhoVkId
                                                                  type:selectedIndex];
-//    NSLog(@"count %@", self.confessions);    
-    if (selectedIndex == IndexTypeNothing) {
-        //delete
+    if (self.buttonsContainerView.selectedButton == SelectedButtonNone) {
+        //post or put
         [[IWWebApiManager sharedManager] deleteConfession:newConfession];
         [self.confessions deleteConfessionWithWhoVkId:whoVKid toWhoVkId:toWhoVkId];
     } else {
-        //post or put
         [[IWWebApiManager sharedManager] postConfession:newConfession];
         [self.confessions changeConfessionTypeWithWhoVkId:whoVKid toWhoVkId:toWhoVkId andType:selectedIndex];
     }
-    
-//    NSLog(@"count %@", self.confessions);
 }
 
-- (void)setupSegmentControlUsingConfessions:(NSArray *)confessions {
+- (void)setupButtonsUsingConfessions:(NSArray *)confessions {
+    NSArray *filtered = [confessions filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"to_who_vk_id = %@",
+                         [NSString stringWithFormat:@"%@", self.usersInfo[@"id"]]]];
+                                                                  
+    if (filtered.count) {
+        IWConfession *confession = filtered.firstObject;
+        self.buttonsContainerView.selectedButton = confession.type;
+    }
+    
+    /*
     for (IWConfession *confession in confessions) {
         NSString *number = [NSString stringWithFormat:@"%@", self.usersInfo[@"id"]];
         
         if ([confession.to_who_vk_id isEqualToString:number]) {
-            self.choice.selectedSegmentIndex = confession.type;
+            self.buttonsContainerView.selectedButton = confession.type;
             return;
         }
     }
+    */
 }
 
 - (void)updateCellWithData:(NSArray *)data withNumber:(NSUInteger)number asyncUpdateOriginalCell:(IWVkPersonTableViewCellBlock)bloc {
@@ -87,14 +89,14 @@
             });
         });
     }
-    [self setupSegmentControlUsingConfessions:self.confessions];
+    [self setupButtonsUsingConfessions:self.confessions];
 }
 
 - (void)prepareForReuse {
     [super prepareForReuse];
     self.avatar.image = nil;
     self.name.text = nil;
-    self.choice.selectedSegmentIndex = -1;
+    self.buttonsContainerView.selectedButton = SelectedButtonNone;
 }
 
 @end
